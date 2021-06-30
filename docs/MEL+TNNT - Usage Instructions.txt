@@ -1,0 +1,28 @@
+*) Packages:
+MEL: Metadata Extractor & Loader
+TNNT (The NLP-NER Toolkit): Natural Language Processing (NLP) / Named-Entity Recognition (NER)
+
+===
+*) Software Requirements:
++ NLP-NER data files (models of the installed tools): https://bit.ly/3hcYxnu
+
+===
+*) Dataset folder: (inputs, outputs)
+/path-to-data-(docs-repo)/[NAME]-dataset
+
+*) Settings and script:
+/path-to-code/_run_MEL_with_NER_[NAME].py --> run this
+/path-to-code/MEL/config-NER-[NAME].json  --> settings
+{
+/"Datasets"/"[NAME]" : {
+	+ input:  "Folders"/"Input-Folder" + "Folders"/"Only-UseCase"
+	+ output: "NLP-NER"/"Output"
+	}
+/"NLP-NER" : {
+	+ settings of the processing-blocks and models
+	+ enabled or not
+	}
+}
+
+===
+@Sergio / $ 03:46 PM 2021-06-30 $

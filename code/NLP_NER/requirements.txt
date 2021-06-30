@@ -1,0 +1,1 @@
+spacy_stanza==0.2.1requests==2.23.0stanza==1.0.0pytorch_transformers==1.2.0nltk==3.4.5spacy==2.2.3torch==1.4.0+cpu
