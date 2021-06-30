@@ -1,4 +1,4 @@
-![MEL+TNNT](https://github.com/KGCP/MEL-TNNT/tree/main/docs/MEL+TNNT.png)
+![MEL+TNNT](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL+TNNT.png)
 
 
 ---
@@ -32,10 +32,10 @@ Implements a set of classes and functions to extract metadata (and textual conte
 - Images: `.jpg`, `.png`, etc.
 
 ## MEL Architecture
-![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/tree/main/docs/MEL/MEL-UML.png)
+![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-UML.png)
 
 **Processing Model**: the methods implemented in MEL are generic and can be applied to extract the content and metadata of all supported file types/formats.
-![Processing Model](https://github.com/KGCP/MEL-TNNT/tree/main/docs/MEL/MEL-ProcessingModel.png)
+![Processing Model](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-ProcessingModel.png)
 
 ## Overview Demo
 - [ISWC 2021 - Posters & Demos Track: demo videos](https://bit.ly/3h5iE5M)
@@ -71,10 +71,10 @@ Implements a pipeline task to automate the extraction of categorised named entit
 - Google BERT.
 
 ## TNNT Architecture
-![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/tree/main/docs/TNNT/TNNT-UML.png)
+![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-UML.png)
 
 **Processing Model**: TNNT has been fully integrated with MEL.  MEL settings establish the way how TNNT will process some specific block of NER models for the input dataset (either from content stored on CouchDB or from a direct document processing immediately after the metadata extraction).  The following diagram presents the toolkit’s processing model: the first two blocks are orchestrated by MEL.
-![Processing Model](https://github.com/KGCP/MEL-TNNT/tree/main/docs/TNNT/TNNT-ProcessingModel.png)
+![Processing Model](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-ProcessingModel.png)
 
 ## Recognised Categories
 From the implemented models, the toolkit can recognised entities from the following categories:
@@ -106,4 +106,4 @@ From the implemented models, the toolkit can recognised entities from the follow
 - Sergio Rodriguez <`Sergio.RodriguezMendez [at] anu.edu.au`>
 
 # License
-{MEL+TNNT} is publicly available under an MIT license, as specified in the [LICENSE](https://github.com/KGCP/MEL-TNNT/tree/main/LICENSE) file.
+{MEL+TNNT} is publicly available under an MIT license, as specified in the [LICENSE](https://github.com/KGCP/MEL-TNNT/blob/master/LICENSE) file.
