@@ -32,7 +32,7 @@ Implements a set of classes and functions to extract metadata (and textual conte
 - Images: `.jpg`, `.png`, etc.
 
 ## MEL Architecture
-[UML Class Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-UML.png)
+![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-UML.jpg)
 
 **Processing Model**: the methods implemented in MEL are generic and can be applied to extract the content and metadata of all supported file types/formats.
 ![Processing Model](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-ProcessingModel.png)
