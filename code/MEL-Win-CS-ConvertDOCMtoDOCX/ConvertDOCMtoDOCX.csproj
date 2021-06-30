@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <StartupObject>MEL.Utils</StartupObject>
+    <AssemblyName>AGRIF_Project</AssemblyName>
+    <RootNamespace>MEL</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>Sergio José Rodríguez Méndez</Authors>
+    <Company>ANU / CECS / RSCS</Company>
+    <Description>Utilities for MEL</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.IO.Packaging" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>C:\Program Files (x86)\Open XML SDK\V2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

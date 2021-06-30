@@ -1,0 +1,353 @@
+{
+  "spacy_sm_model": {
+    "name": "spacy_sm_model",
+    "model": "en_core_web_sm",
+    "max-length": 5998267,
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "spacy_md_model": {
+    "name": "spacy_md_model",
+    "model": "en_core_web_md",
+    "max-length": 5998267,
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "spacy_lg_model": {
+    "name": "spacy_lg_model",
+    "model": "en_core_web_lg",
+    "max-length": 5998267,
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "stanford_class3_model": {
+    "name": "stanford_class3_model",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/stanford-ner/classifiers/english.all.3class.distsim.crf.ser.gz",
+    "categories": [
+      "LOCATION",
+      "ORGANIZATION",
+      "PERSON"
+    ]
+  },
+  "stanford_class4_model": {
+    "name": "stanford_class4_model",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/stanford-ner/classifiers/english.conll.4class.distsim.crf.ser.gz",
+    "categories": [
+      "LOCATION",
+      "ORGANIZATION",
+      "PERSON",
+      "MISC"
+    ]
+  },
+  "stanford_class7_model": {
+    "name": "stanford_class7_model",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/stanford-ner/classifiers/english.muc.7class.distsim.crf.ser.gz",
+    "categories": [
+      "LOCATION",
+      "ORGANIZATION",
+      "PERSON",
+      "MONEY",
+      "PERCENT",
+      "DATE",
+      "TIME"
+    ]
+  },
+  "stanza_model": {
+    "name": "stanza_model",
+    "max-length": 750000000,
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "nltk_model": {
+    "name": "nltk_model",
+    "categories": [
+      "ORGANIZATION",
+      "PERSON",
+      "LOCATION",
+      "DATE",
+      "TIME",
+      "MONEY",
+      "PERCENT",
+      "FACILITY",
+      "GPE"
+    ]
+  },
+  "bert_model": {
+    "name": "bert_model",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/bert-ner/",
+    "max_length": 512,
+    "punctuation_list": [
+      ".",
+      ";",
+      ":",
+      ","
+    ],
+    "categories": [
+      "LOC",
+      "PER",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "flair_model": {
+    "name": "flair_model",
+    "categories": [
+      "LOC",
+      "PER",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "flair_ontonotes_model": {
+    "name": "flair_ontonotes_model",
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "flair_fast_model": {
+    "name": "flair_fast_model",
+    "categories": [
+      "LOC",
+      "PER",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "flair_pooled_model":  {
+    "name": "flair_pooled_model",
+    "categories": [
+      "LOC",
+      "PER",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "flair_fast_ontonotes_model": {
+    "name": "flair_fast_ontonotes_model",
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "deeppavlov_onto_model": {
+    "name": "deeppavlov_onto_model",
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "deeppavlov_onto_bert_model": {
+    "name": "deeppavlov_onto_bert_model",
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "deeppavlov_conll2003_model": {
+    "name": "deeppavlov_conll2003_model",
+    "categories": [
+      "PER",
+      "LOC",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "deeppavlov_conll2003_bert_model": {
+    "name": "deeppavlov_conll2003_bert_model",
+    "categories": [
+      "PER",
+      "LOC",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "allennlp_ner": {
+    "name": "allennlp_ner",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/allennlp/ner-model-2020.02.10",
+    "cloud-path": "https://storage.googleapis.com/allennlp-public-models/ner-model-2020.02.10.tar.gz",
+    "categories": [
+      "PER",
+      "LOC",
+      "ORG",
+      "MISC"
+    ]
+  },
+  "allennlp-finegrained-ner": {
+    "name": "allennlp-finegrained-ner",
+    "path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/allennlp/fine-grained-ner.2020-06-24",
+    "cloud-path": "https://storage.googleapis.com/allennlp-public-models/fine-grained-ner.2020-06-24.tar.gz",
+    "categories": [
+      "PERSON",
+      "NORP",
+      "FAC",
+      "ORG",
+      "GPE",
+      "LOC",
+      "PRODUCT",
+      "EVENT",
+      "WORK_OF_ART",
+      "LAW",
+      "LANGUAGE",
+      "DATE",
+      "TIME",
+      "PERCENT",
+      "MONEY",
+      "QUANTITY",
+      "ORDINAL",
+      "CARDINAL"
+    ]
+  },
+  "polyglot_model": {
+    "name": "polyglot_model",
+    "categories": [
+      "LOC",
+      "PER",
+      "ORG"
+    ]
+  },
+  "Stanford-Ner-Path": "/data/python-resources/AGRIF/mapping-services/NLP_NER/tools-models/stanford-ner/stanford-ner.jar",
+  "Text-File-Path": "/data/python-resources/AGRIF/docs-repo/_output/NLP-NER-output.txt",
+  "DateTime-to-String-Format": "%Y-%m-%d %H:%M:%S.%f",
+  "Text-Based-File-Processing": {
+    "CSV": ",",
+    "TXT": "|"
+  },
+  "sentence_include": 1
+}

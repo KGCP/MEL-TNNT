@@ -1,0 +1,16 @@
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\DocumentFormat.OpenXml.dll
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\DocumentFormat.OpenXml.xml
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\ConvertDOCMtoDOCX.csprojAssemblyReference.cache
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\ConvertDOCMtoDOCX.AssemblyInfoInputs.cache
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\ConvertDOCMtoDOCX.AssemblyInfo.cs
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\ConvertDOCMtoDOCX.csproj.CopyComplete
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\System.IO.Packaging.dll
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.exe
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.deps.json
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.runtimeconfig.json
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.runtimeconfig.dev.json
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.dll
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\AGRIF_Project.pdb
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\AGRIF_Project.dll
+E:\Dropbox\Library\_VisualStudio\Community_2019\source\repos\anu-cecs\AGRIF_Project\ConvertDOCMtoDOCX\obj\Debug\netcoreapp3.0\AGRIF_Project.pdb

@@ -1,0 +1,55 @@
+{
+  "dataset": [
+    {
+      "name": "DoEE-Assessments",
+      "CouchDB-db": "/doee-assessments",
+      "sampling": {
+        "by_extension": 1,
+        "by_file_length": 0,
+        "by_doc_structure": 0
+      },
+      "sampling_constant": 0.0018
+    },
+    {
+      "name": "DoEE-Species",
+      "CouchDB-db": "/doee-species",
+      "sampling": {
+        "by_extension": 0,
+        "by_file_length": 1,
+        "by_doc_structure": 0
+      },
+      "sampling_constant": 0.01
+    },
+    {
+      "name": "DoF-Procurements",
+      "CouchDB-db": "/dof-procurements",
+      "sampling": {
+        "by_extension": 0,
+        "by_file_length": 1,
+        "by_doc_structure": 0
+      },
+      "sampling_constant": 0.01
+    },
+    {
+      "name": "DoF-PBS-data",
+      "CouchDB-db": "/dof-pbs-data",
+      "sampling": {
+        "by_extension": 1,
+        "by_file_length": 0,
+        "by_doc_structure": 0
+      },
+      "sampling_constant": 0.01
+    },
+    {
+      "name": "NHMRC-Grants",
+      "CouchDB-db": "/nhmrc-grants",
+      "sampling": {
+        "by_extension": 1,
+        "by_file_length": 0,
+        "by_doc_structure": 0
+      },
+      "sampling_constant": 0.01
+    }
+  ],
+  "sampling_constant": 0.1
+}

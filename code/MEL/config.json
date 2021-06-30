@@ -1,0 +1,389 @@
+{
+	"$-exec": "ANU-Scholarly-Researchers",
+	"Virtuoso":
+	{
+		"Host": "http://server-domain:8890/sparql/"
+	},
+	"CouchDB":
+	{
+		"Host": "http://<USR>:<PWD>@<IP-ADDRESS>:5984",
+		"Database": "/***",
+		"Enable": 1,
+		"Operations":
+		{
+			"Server-Config": "/_node/_local/_config",
+			"UUIDS": "/_uuids",
+			"Find": "/_find",
+			"Reload-Documents": 1,
+			"Reload-Files-of-Extensions": "*",
+			"Only-Files-of-Extensions": "*",
+			"Skip-Files-of-Extensions": "*"
+		}
+	},
+	"Datasets": {
+		"DoEE-Assessments": {
+       		"CouchDB": {
+            	"Database": "/doee-assessments",
+            	"Enable": 1,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "*",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":    "/data/docs-repo/DoEE-assessments/",
+	            "Output-Folder":   "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 0,
+	            "Temp-Folder":     "/data/docs-repo/_tmp/DoEE-assessments/",
+				"Metadata-Folder": "/data/docs-repo/_metadata/DoEE-assessments/",
+            	"Has-Associated-Metadata": 0,
+	            "Test-Folder":     "/data/docs-repo/_test/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-doee-assessments",
+            	"Output": "/data/docs-repo/_NLP-NER/DoEE/assessments/",
+				"Enable": 1,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 1,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"DoEE-Species": {
+       		"CouchDB": {
+            	"Database": "/doee-species",
+            	"Enable": 1,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "*",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":      "/data/docs-repo/DoEE-endangered-species/",
+	            "Input-Folder-CA":   "/data/docs-repo/DoEE-endangered-species/CAsAndRPs/conservation_advices/",
+				"Input-Folder-RP":   "/data/docs-repo/DoEE-endangered-species/CAsAndRPs/recovery_plans/",
+				"Input-Folder-Docs": "/data/docs-repo/DoEE-endangered-species/SpeciesDocumentSets/",
+	            "Output-Folder":     "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 0,
+	            "Temp-Folder":       "/data/docs-repo/_tmp/DoEE-endangered-species/",
+				"Metadata-Folder":   "/data/docs-repo/_metadata/DoEE-endangered-species/",
+            	"Has-Associated-Metadata": 1,
+	            "Test-Folder":       "/data/docs-repo/_test/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-doee-species",
+            	"Output": "/data/docs-repo/_NLP-NER/DoEE/endangered-species/",
+				"Enable": 1,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 1,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"DoF-Procurements": {
+       		"CouchDB": {
+            	"Database": "/dof-procurements",
+            	"Enable": 1,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "*",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":        "/data/docs-repo/DoF-procurements/PRJ - IWC Remediation Project - 2017-2020/",
+	            "Input-Folder-PRJ1":   "/data/docs-repo/DoF-procurements/PRJ - IWC Remediation Project - 2017-2020/",
+			    "Input-Folder-PRJ2":   "/data/docs-repo/DoF-procurements/PRJ - National Portrait Gallery Building - 2016-2019/",
+	            "Output-Folder":       "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 0,
+	            "Temp-Folder":         "/data/docs-repo/_tmp/DoF-procurements/",
+				"Metadata-Folder":     "/data/docs-repo/_metadata/DoF-procurements/",
+            	"Has-Associated-Metadata": 0,
+    			"Test-Folder":         "/data/docs-repo/DoF-procurements/PRJ - IWC Remediation Project - 2017-2020/02 Procurement & Contract Management/01. AGS Legal Advice (Acquisition)/01. Approvals and Minutes/01. Variations/",
+    			"Log-Folder":          "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-dof-procurements",
+            	"Output": "/data/docs-repo/_NLP-NER/DoF/procurements/",
+				"Enable": 1,
+				"Output-Handling": "ONLY-NER",
+				"Store-Output-On-CouchDB": 1,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"SemTab_2020": {
+       		"CouchDB": {
+            	"Database": "/***",
+            	"Enable": 0,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "*",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":    "/data/docs-repo/SemTab-2020/",
+	            "Output-Folder":   "/data/docs-repo/SemTab-2020/_output/",
+	            "Generate-Output-Files": 1,
+	            "Temp-Folder":     "/data/docs-repo/_tmp/SemTab-2020/",
+	            "Metadata-Folder": "/data/docs-repo/_metadata/SemTab-2020/",
+            	"Has-Associated-Metadata": 0,
+	            "Test-Folder":     "/data/docs-repo/_test/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "tables",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/***",
+            	"Output": "/data/docs-repo/_NLP-NER/SemTab-2020/_output/",
+				"Enable": 1,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 0,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"MAKG-Papers": {
+       		"CouchDB": {
+            	"Database": "/makg-papers",
+            	"Enable": 0,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "PDF",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":    "/data/docs-repo/MAKG-papers/",
+	            "Output-Folder":   "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 0,
+	            "Temp-Folder":     "/data/docs-repo/_tmp/MAKG-papers/",
+        		"Metadata-Folder": "/data/docs-repo/_metadata/MAKG-papers/",
+            	"Has-Associated-Metadata": 0,
+	            "Test-Folder":     "/data/docs-repo/_test/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "candidates",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-makg-papers",
+            	"Output": "/data/docs-repo/_NLP-NER/MAKG-papers/",
+				"Enable": 0,
+				"Output-Handling": "ONLY-NER",
+				"Store-Output-On-CouchDB": 1,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"DoF-PBS-data": {
+       		"CouchDB": {
+            	"Database": "/dof-pbs-data",
+            	"Enable": 1,
+            	"Reload-Documents": 1,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "PDF,HTM,RTF",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":    "/data/docs-repo/DoF-PBS-data/History/",
+	            "Output-Folder":   "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 1,
+	            "Temp-Folder":     "/data/docs-repo/_tmp/DoF-PBS-data/History/",
+            	"Metadata-Folder": "/data/docs-repo/_metadata/DoF-PBS-data/History/",
+            	"Has-Associated-Metadata": 0,
+	            "Test-Folder":     "/data/docs-repo/_test/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "2013-14 Health PBS",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "DoF-PBS-data",
+				"Only-Filename":       "2019-20 PBS - Treasury Portfolio.pdf",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-dof-pbs-data",
+            	"Output": "/data/docs-repo/_NLP-NER/DoF/PBS-Data/",
+				"Enable": 0,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 1,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+		},
+        "ANU-Scholarly-Researchers": {
+			"CouchDB": {
+            	"Database": "/anu-scholarly-researchers",
+            	"Enable": 1,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "JSON",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+				"Input-Folder":    "/data/docs-repo/ANU-Scholarly-KG/",
+	            "Output-Folder":   "/data/docs-repo/_output/",
+	            "Generate-Output-Files": 0,
+				"Temp-Folder":     "/data/docs-repo/_tmp/ANU-Scholarly-KG/",
+				"Metadata-Folder": "/data/docs-repo/_metadata/ANU-Scholarly-KG/",
+            	"Has-Associated-Metadata": 1,
+	            "Test-Folder":     "/data/docs-repo/ANU-Scholarly-KG/researchers-data/",
+	            "Log-Folder":      "/data/docs-repo/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "researchers-data",
+				"Only-Filename":       "",
+				"View-File-Print": 1
+            },
+            "NLP-NER": {
+            	"Database": "/***",
+            	"Output": "/data/docs-repo/_output/",
+				"Enable": 0,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 0,
+            	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        }
+	},
+	"NLP-NER": {
+		"Database-Prefix": "/nlp-ner-",
+		"Enable": 0,
+		"Processing-Blocks": [
+			{
+				"Name": "spacy",
+				"Enable": 1,
+				"$": [ "spacy_sm", "spacy_md", "spacy_lg" ]
+			},
+			{
+				"Name": "stanford",
+				"Enable": 1,
+				"$": [ "stanford_class3", "stanford_class4", "stanford_class7" ]
+			},
+			{
+				"Name": "heavy!",
+				"Enable": 0,
+				"$": [ "stanza", "nltk", "bert" ]
+			},
+			{
+				"Name": "flair",
+				"Enable": 0,
+				"$": [ "flair", "flair_ontonotes", "flair_pooled" ]
+			},
+			{
+				"Name": "deeppavlov",
+				"Enable": 0,
+				"$": [ "deeppavlov_onto", "deeppavlov_onto_bert", "deeppavlov_conll2003", "deeppavlov_conll2003_bert" ]
+			},
+			{
+				"Name": "allennlp",
+				"Enable": 0,
+				"$": [ "allennlp", "allennlp_finegrained" ]
+			},
+			{
+				"Name": "fast",
+				"Enable": 0,
+				"$": [ "polyglot", "flair_fast", "flair_fast_ontonotes" ]
+			}
+		],
+		"Models": {
+			"spacy_sm": 1,
+			"spacy_md": 1,
+			"spacy_lg": 1,
+			"stanford_class3": 1,
+			"stanford_class4": 1,
+			"stanford_class7": 1,
+			"stanza": 1,
+			"nltk": 1,
+			"bert": 1,
+			"flair": 1,
+			"flair_ontonotes": 1,
+			"flair_fast": 1,
+			"flair_fast_ontonotes": 1,
+			"flair_pooled": 1,
+			"deeppavlov_onto": 1,
+			"deeppavlov_onto_bert": 1,
+			"deeppavlov_conll2003": 1,
+			"deeppavlov_conll2003_bert": 1,
+			"allennlp": 1,
+			"allennlp_finegrained": 1,
+			"polyglot": 1
+		}
+	},
+	"Metadata-File-Extension": ".xml",
+	"DateTime-to-String-Format": "%Y-%m-%d %H:%M:%S.%f",
+	"Logging": {
+		"Format": "[%(asctime)s] [%(name)s � %(levelname)s] � [%(funcName)s:%(lineno)d]\n%(message)s",
+		"Default-Folder": "/data/docs-repo/_logs/"
+	},
+	"MIME-Types": {
+        "XLW": "application/vnd.ms-excel",
+        "MSG": "application/vnd.ms-outlook",
+        "DBF": "application/dbf",
+        "DWG": "application/autocad_dwg",
+        "RTF": "text/rtf"
+    },
+	"Extension-Mappings": {
+        "DOC": "OLE",
+        "XLS": "OLE",
+        "PPT": "OLE",
+        "OFT": "MSG",
+        "VSD": "OLE",
+        "MPP": "OLE",
+        "TXT": "TXT",
+        "XML": "TXT",
+		"HTML": "TXT",
+		"HTM": "TXT",
+        "JSON": "TXT",
+        "RTF": "RTF"
+	},
+    "Associated-Metadata": {
+	    "DoEE_Species_CAsAndRPs-Settings": {
+	        "Path": "/data/docs-repo/DoEE-endangered-species/",
+	        "Folder": "CAsAndRPs",
+	        "File": "conservation_advices.xlsx"
+	    },
+	    "Mappings": {
+	        "CAsAndRPs": "DoEE_Species_CAsAndRPs",
+	        "ANU-Scholarly-KG": "__JSON__"
+	    }
+    },
+    "ConvertDOCMtoDOCX-.NET-Utility": "E:/_GitHub/KGCP/MEL-TNNT/code/MEL-Win-CS-ConvertDOCMtoDOCX/bin/Debug/netcoreapp3.0/AGRIF_Project.exe",
+    "Regular-Expressions": {
+		"e-mails": "[\\w\\.-]+@[\\w\\.-]+\\.\\w+",
+		"phone-numbers": "[\\+\\(]?[0-9][0-9 .\\-\\(\\)]{8,}[0-9]",
+		"URLs": "(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})",
+		"all-caps": "\\b([A-Z]+)(\\-|\\/)?([A-Z]+)\\b",
+		"start-with-caps": "\\b[A-Z][a-z]{1,}?\\b",
+		"IDs-start-with-year":"(2\\d\\d{2})(\\/|\\-)(\\d+)",
+		"money-amounts-with-decimals" : "(\\$)\\s?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(\\.[0-9][0-9])?"
+    },
+	"Text-Based-File-Extensions": "TXT,CSV,XML,PRJ,HTML,HTM,JSON,RTF",
+	"Print-Verbose-Output": 1,
+	"APPENDIX":
+	{
+		"General": {
+			"Input-Folder-0":  "E:/_temp/",
+			"Metadata-Folder": "E:/Software/metadata-extractor/harvested/native/"
+		}
+	}
+}

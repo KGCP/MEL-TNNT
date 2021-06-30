@@ -1,0 +1,71 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.0": {
+      "AGRIF_Project/0.1.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2",
+          "System.IO.Packaging": "4.6.0",
+          "DocumentFormat.OpenXml": "2.5.5631.0"
+        },
+        "runtime": {
+          "AGRIF_Project.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.2.23222"
+          }
+        }
+      },
+      "System.IO.Packaging/4.6.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.IO.Packaging.dll": {
+            "assemblyVersion": "4.0.4.0",
+            "fileVersion": "4.700.19.46214"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml/2.5.5631.0": {
+        "runtime": {
+          "DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "2.5.5631.0",
+            "fileVersion": "2.5.5631.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AGRIF_Project/0.1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/12.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+      "path": "newtonsoft.json/12.0.2",
+      "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "System.IO.Packaging/4.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OVGGX9DWz1qbNGdh+kO3Q9spWa3dBTZ/glxrFOc8A/W8LquMg7JnPW4SecF7gzIyE1nAsfvyOILIubktnFZnlA==",
+      "path": "system.io.packaging/4.6.0",
+      "hashPath": "system.io.packaging.4.6.0.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml/2.5.5631.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

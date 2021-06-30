@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ConvertDOCMtoDOCX": {
+      "commandName": "Project",
+      "commandLineArgs": "\"E:\\_temp\\DepFin-Project\\_use-cases\\2017-7881 Spring Gully CSG North West and North East Development, Qld\\2017-7881 Proposed Approval-PD-Advice-OoC-20190206.docm\"",
+      "workingDirectory": "E:\\_temp\\DepFin-Project"
+    }
+  }
+}
