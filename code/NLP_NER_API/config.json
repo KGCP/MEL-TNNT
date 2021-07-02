@@ -1,0 +1,567 @@
+{
+    "base-directory" : "/data/docs-repo/",
+
+    "allowed-directories" : {
+        "Dataset-01" : "/data/docs-repo/_NLP-NER",
+        "Dataset-02" : "/data/docs-repo/NER-Survey",
+        "Dataset-03" : "/data/docs-repo/yingnan-dataset",
+        "Dataset-04" : "/data/docs-repo/_output"
+    },
+
+    "outputs": {
+	    "EMPTY_SEARCH"  : { "ERROR" : "The result of search is empty." },
+	    "EMPTY_RESULTS" : { "ERROR" : "The result is empty." },
+	    "ERROR_ACCEPT"  : { "ERROR" : "The form of accept is not accepted." },
+	    "ERROR_AGGR"    : { "ERROR" : "The file was aggregated before." },
+	    "SUCCESS_AGGR"  : { "SUCCESS" : "The file is now aggregated." },
+        "ERROR_AGGR_ALERT" : {"ERROR" : "You cannot do aggregation in this kind of file" },
+        "ERROR_ARGS" : {"ERROR" : "The argument you request is wrong." },
+        "ERROR_FILTER" : {"ERROR" : "You cannot do filter function on a non-summary file"},
+        "ERROR_SEARCH" : {"ERROR" : "You cannot do search on json file (temporarily)" }
+    },
+
+    "abbreviation-of-word-dict" : {
+        "_gm" : "General-Metadata",
+        "_sm" : "Specific-Metadata",
+        "_ta" : "text-analysis",
+        "_text" : "clean-text",
+        "_pm" : "pattern-matching",
+        "_kw" : "Tokenized-text$Keywords",
+        "_am" : "Associated-Metadata",
+        "_caps" : "all-caps",
+        "_swc" : "start-with-caps",
+        "_noc" : "number-of-characters",
+        "_nok" : "Number-of-keywords"
+    },
+
+    "request-args" :{
+        "search" : "search",
+        "aggr" : "aggr",
+        "entity" :{
+            "indexes" : "start_index|end_index",
+            "start_index" : "start_index",
+            "end_index" : "end_index",
+            "sentence" : "sentence",
+            "model" : "model",
+            "category" : "category",
+            "count" : "count"
+        },
+        "filterfunction" : {
+            "fnum": "filternum",
+            "f*num": "filterOnlyNum",
+            "f*str": "filterOnlyString",
+            "furl": "filterwebsite"
+        },
+        "pos-tag" : {
+            "1" : "nltk_pos_tagging"
+        }
+    },
+
+    "json-header" : {
+        "content-type": "application/json; charset=utf-8"
+    },
+    
+    "html-header":{ 
+        "content-type": "text/html; charset=utf-8"
+    },
+
+	"debug-flag": 0,
+    "tcp-port": 5000,
+    "server-host": "0.0.0.0",
+
+    "label-classification":  {
+        "PERSON" : {
+            "spacy_lg_model" : "PERSON",
+            "spacy_md_model" : "PERSON",
+            "spacy_sm_model" : "PERSON",
+
+            "stanford_class3_model" : "PERSON",
+            "stanford_class4_model" : "PERSON",
+            "stanford_class7_model" : "PERSON",
+
+            "stanza_model" :  "PERSON",
+
+            "allennlp_ner" : "PERSON",
+            "allennlp-finegrained-ner" : "PERSON",
+            
+            "deeppavlov_conll2003_bert_model" : "PERSON",
+            "deeppavlov_conll2003_model" : "PERSON",
+            "deeppavlov_onto_bert_model" : "PERSON",
+            "deeppavlov_onto_model" : "PERSON",
+
+            "flair_fast_model" : "PERSON",
+            "flair_fast_ontonotes_model" : "PERSON",
+            "flair_model" : "PERSON",
+            "flair_ontonotes_model" : "PERSON",
+            "flair_pooled_model" : "PERSON",
+
+            "nltk_model" : "PERSON",
+            "polyglot_model" : "PERSON",
+            "google_bert_model" : "PERSON"
+        },
+
+        "NORP" : {
+            "spacy_lg_model" : "NORP",
+            "spacy_md_model" : "NORP",
+            "spacy_sm_model" : "NORP",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "NORP",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "NORP",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "NORP",
+            "deeppavlov_onto_model" : "NORP",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "NORP",
+            "flair_ontonotes_model" : "NORP",
+            
+            "nltk_model" : "*",
+            "google_bert_model" : "MISC"
+        },
+
+        "FAC" : {
+            "spacy_lg_model" : "FAC",
+            "spacy_md_model" : "FAC",
+            "spacy_sm_model" : "FAC",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "FAC",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "FAC",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "FAC",
+            "deeppavlov_onto_model" : "FAC",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "FAC",
+            "flair_ontonotes_model" : "FAC",
+            
+            "nltk_model" : "Facility",
+            "google_bert_model" : "MISC"
+        },
+        
+        "ORG" : {
+            "spacy_lg_model" : "ORG",
+            "spacy_md_model" : "ORG",
+            "spacy_sm_model" : "ORG",
+
+            "stanford_class3_model" : "Organization",
+            "stanford_class4_model" : "Organization",
+            "stanford_class7_model" : "Organization",
+
+            "stanza_model" :  "ORG",
+
+            "allennlp_ner" : "Organization",
+            "allennlp-finegrained-ner" : "ORG",
+            
+            "deeppavlov_conll2003_bert_model" : "Organization",
+            "deeppavlov_conll2003_model" : "Organization",
+            "deeppavlov_onto_bert_model" : "ORG",
+            "deeppavlov_onto_model" : "ORG",
+
+            "flair_fast_model" : "Organization",
+            "flair_model" : "Organization",
+            "flair_pooled_model" : "Organization",
+            "flair_fast_ontonotes_model" : "ORG",
+            "flair_ontonotes_model" : "ORG",
+
+            "nltk_model" : "Organization",
+            "polyglot_model" : "Organization",
+            "google_bert_model" : "Organization"
+        },
+
+        "GPE" : {
+            "spacy_lg_model" : "GPE",
+            "spacy_md_model" : "GPE",
+            "spacy_sm_model" : "GPE",
+            
+            "stanford_class3_model" : "Location",
+            "stanford_class4_model" : "Location",
+            "stanford_class7_model" : "Location",
+
+            "stanza_model" :  "GPE",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "GPE",
+            
+            "deeppavlov_conll2003_bert_model" : "Location",
+            "deeppavlov_conll2003_model" : "Location",
+            "deeppavlov_onto_bert_model" : "GPE",
+            "deeppavlov_onto_model" : "GPE",
+
+            "flair_fast_model" : "Location",
+            "flair_model" : "Location",
+            "flair_pooled_model" : "Location",
+            "flair_fast_ontonotes_model" : "GPE",
+            "flair_ontonotes_model" : "GPE",
+            
+            "nltk_model" : "GPE",
+            "polyglot_model" : "LOCATION",
+            "google_bert_model" : "Location"
+        },
+
+        "LOC" : {
+            "spacy_lg_model" : "LOC",
+            "spacy_md_model" : "LOC",
+            "spacy_sm_model" : "LOC",
+
+            "stanford_class3_model" : "Location",
+            "stanford_class4_model" : "Location",
+            "stanford_class7_model" : "Location",
+
+            "stanza_model" :  "LOC",
+
+            "allennlp_ner" : "Location",
+            "allennlp-finegrained-ner" : "LOC",
+            
+            "deeppavlov_conll2003_bert_model" : "Location",
+            "deeppavlov_conll2003_model" : "Location",
+            "deeppavlov_onto_bert_model" : "LOC",
+            "deeppavlov_onto_model" : "LOC",
+
+            "flair_fast_model" : "LOC",
+            "flair_model" : "LOC",
+            "flair_pooled_model" : "LOC",
+            "flair_fast_ontonotes_model" : "Location",
+            "flair_ontonotes_model" : "Location",
+
+            "nltk_model" : "Location",
+            "polyglot_model" : "LOCATION",
+            "google_bert_model" : "Location"
+        },
+
+        "PRODUCT" : {
+            "spacy_lg_model" : "PRODUCT",
+            "spacy_md_model" : "PRODUCT",
+            "spacy_sm_model" : "PRODUCT",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "PRODUCT",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "PRODUCT",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "PRODUCT",
+            "deeppavlov_onto_model" : "PRODUCT",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "PRODUCT",
+            "flair_ontonotes_model" : "PRODUCT",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "EVENT" : {
+            "spacy_lg_model" : "EVENT",
+            "spacy_md_model" : "EVENT",
+            "spacy_sm_model" : "EVENT",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "EVENT",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "EVENT",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "EVENT",
+            "deeppavlov_onto_model" : "EVENT",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "EVENT",
+            "flair_ontonotes_model" : "EVENT",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "WORK_OF_ART" : {
+            "spacy_lg_model" : "WORK_OF_ART",
+            "spacy_md_model" : "WORK_OF_ART",
+            "spacy_sm_model" : "WORK_OF_ART",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "WORK_OF_ART",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "WORK_OF_ART",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "WORK_OF_ART",
+            "deeppavlov_onto_model" : "WORK_OF_ART",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "WORK_OF_ART",
+            "flair_ontonotes_model" : "WORK_OF_ART",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "LAW" : {
+            "spacy_lg_model" : "LAW",
+            "spacy_md_model" : "LAW",
+            "spacy_sm_model" : "LAW",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "LAW",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "LAW",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "LAW",
+            "deeppavlov_onto_model" : "LAW",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "LAW",
+            "flair_ontonotes_model" : "LAW",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "LANGUAGE" : {
+            "spacy_lg_model" : "LANGUAGE",
+            "spacy_md_model" : "LANGUAGE",
+            "spacy_sm_model" : "LANGUAGE",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "LANGUAGE",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "LANGUAGE",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "LANGUAGE",
+            "deeppavlov_onto_model" : "LANGUAGE",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "LANGUAGE",
+            "flair_ontonotes_model" : "LANGUAGE",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "DATE" : {
+            "spacy_lg_model" : "DATE",
+            "spacy_md_model" : "DATE",
+            "spacy_sm_model" : "DATE",
+
+            "stanford_class4_model" : "MISC",
+            "stanford_class7_model" : "DATE",
+
+            "stanza_model" :  "DATE",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "DATE",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "DATE",
+            "deeppavlov_onto_model" : "DATE",
+
+            "flair_fast_model" : "DATE",
+            "flair_model" : "DATE",
+            "flair_pooled_model" : "DATE",
+            "flair_fast_ontonotes_model" : "MISC",
+            "flair_ontonotes_model" : "MISC",
+
+            "nltk_model" : "DATE",
+            "google_bert_model" : "MISC"
+        },
+
+        "TIME" : {
+            "spacy_lg_model" : "TIME",
+            "spacy_md_model" : "TIME",
+            "spacy_sm_model" : "TIME",
+
+            "stanford_class4_model" : "MISC",
+            "stanford_class7_model" : "TIME",
+
+            "stanza_model" :  "TIME",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "DATE",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "TIME",
+            "deeppavlov_onto_model" : "TIME",
+
+            "flair_fast_model" : "TIME",
+            "flair_model" : "TIME",
+            "flair_pooled_model" : "TIME",
+            "flair_fast_ontonotes_model" : "MISC",
+            "flair_ontonotes_model" : "MISC",
+
+            "nltk_model" : "TIME",
+            "google_bert_model" : "MISC"
+        },
+
+        "PERCENT" : {
+            "spacy_lg_model" : "PERCENT",
+            "spacy_md_model" : "PERCENT",
+            "spacy_sm_model" : "PERCENT",
+
+            "stanford_class4_model" : "MISC",
+            "stanford_class7_model" : "PERCENT",
+
+            "stanza_model" :  "PERCENT",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "PERCENT",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "PERCENT",
+            "deeppavlov_onto_model" : "PERCENT",
+
+            "flair_fast_model" : "PERCENT",
+            "flair_model" : "PERCENT",
+            "flair_pooled_model" : "PERCENT",
+            "flair_fast_ontonotes_model" : "MISC",
+            "flair_ontonotes_model" : "MISC",
+
+            "nltk_model" : "PERCENT",
+            "google_bert_model" : "MISC"
+        },
+
+        "MONEY" : {
+            "spacy_lg_model" : "MONEY",
+            "spacy_md_model" : "MONEY",
+            "spacy_sm_model" : "MONEY",
+
+            "stanford_class4_model" : "MISC",
+            "stanford_class7_model" : "MONEY",
+
+            "stanza_model" :  "MONEY",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "MONEY",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "MONEY",
+            "deeppavlov_onto_model" : "MONEY",
+
+            "flair_fast_model" : "MONEY",
+            "flair_model" : "MONEY",
+            "flair_pooled_model" : "MONEY",
+            "flair_fast_ontonotes_model" : "MISC",
+            "flair_ontonotes_model" : "MISC",
+
+            "nltk_model" : "MONEY",
+            "google_bert_model" : "MISC"
+        },
+
+        "QUANTITY" : {
+            "spacy_lg_model" : "QUANTITY",
+            "spacy_md_model" : "QUANTITY",
+            "spacy_sm_model" : "QUANTITY",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "QUANTITY",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "QUANTITY",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "QUANTITY",
+            "deeppavlov_onto_model" : "QUANTITY",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "QUANTITY",
+            "flair_ontonotes_model" : "QUANTITY",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "ORDINAL" : {
+            "spacy_lg_model" : "ORDINAL",
+            "spacy_md_model" : "ORDINAL",
+            "spacy_sm_model" : "ORDINAL",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "ORDINAL",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "ORDINAL",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "ORDINAL",
+            "deeppavlov_onto_model" : "ORDINAL",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "ORDINAL",
+            "flair_ontonotes_model" : "ORDINAL",
+            
+            "google_bert_model" : "MISC"
+        },
+
+        "CARDINAL" : {
+            "spacy_lg_model" : "CARDINAL",
+            "spacy_md_model" : "CARDINAL",
+            "spacy_sm_model" : "CARDINAL",
+
+            "stanford_class4_model" : "MISC",
+
+            "stanza_model" :  "CARDINAL",
+
+            "allennlp_ner" : "MISC",
+            "allennlp-finegrained-ner" : "CARDINAL",
+            
+            "deeppavlov_conll2003_bert_model" : "MISC",
+            "deeppavlov_conll2003_model" : "MISC",
+            "deeppavlov_onto_bert_model" : "CARDINAL",
+            "deeppavlov_onto_model" : "CARDINAL",
+
+            "flair_fast_model" : "MISC",
+            "flair_model" : "MISC",
+            "flair_pooled_model" : "MISC",
+            "flair_fast_ontonotes_model" : "CARDINAL",
+            "flair_ontonotes_model" : "CARDINAL",
+            
+            "google_bert_model" : "MISC"
+        }
+    }
+}

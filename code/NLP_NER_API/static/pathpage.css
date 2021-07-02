@@ -1,0 +1,31 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.button {
+    display: inline-block;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+#i1 {background-color: #4CAF50;} /* Green */
+#i2 {background-color: #008CBA;} /* Blue */
+#i3 {background-color: #f44336;} /* Red */
+#i4 {background-color: #e7e7e7; color: black;} /* Gray */
+#i5 {background-color: #555555;} /* Black */
+
+.flex-container{
+    display: inline-block;
+    padding: 5px;
+}

@@ -1,0 +1,24 @@
+Current libraries for python:
+    1. flask (1.1.2)
+    2. gevent(21.1.2)
+    3. stanza(1.2)
+    4. spacy (2.2.1)
+    5. neuralcoref(4.0.0)
+    6. flask_restful (0.3.8)
+    
+Current packages in stanza:
+    1. 'en' in stanza
+
+install `'en'` in stanza:
+import stanza
+stanza.download('en')
+stanza_nlp = stanza.Pipeline('en')
+
+install `en_core_web_sm` in spacy:
+python -m spacy download en_core_web_sm
+
+
+import stanza
+stanza.install_corenlp(dir="YOUR_CORENLP_FOLDER")
+stanza.download_corenlp_models(model='chinese', version='4.1.0', dir="YOUR_CORENLP_FOLDER")
+java jdk1.8

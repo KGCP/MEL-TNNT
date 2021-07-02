@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pathpage.css') }}">
+{% endblock %}
+
+<!-- heading -->
+{% block heading %}
+{% if pathname == '/' %}
+<h1>Index</h1>
+{% elif title == '' %}
+<h1> {{pathname}}</h1>
+{% else%}
+<h1> {{title}} </h1>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{{super()}}
+{% if file %}
+<table style="width:100%" id="t01">
+  <tr>
+    <th>Filename</th>
+    <th>Modified Date</th>
+    <th>Size of File (byte)</th>
+  </tr>
+  {% for f in range(0,len) %}
+  {% if pathname == '/' %}
+    {% for key,value in file.items()%}
+  <tr>
+    <td><a href="{{request.root_url}}/{{value}}"> {{key}} </a> </td>
+    <td></td>
+    <td></td>
+    {% endfor %}
+    <!-- the json orientation part -->
+    {% elif '--' in file[f] %}
+
+    <td>
+      <a href="/{{pathname}}/{{file[f].split('--')[1]}}">{{file[f]}}</a>
+      {% if 'MEL+NER' in file[f] %}
+      <div class="flex-container">
+        <div class="button" id="i1"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/General-Metadata">
+            General-Metadata </a></div>
+        <div class="button" id="i2"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Specific-Metadata">
+            Specific-Metadata </a></div>
+        <div class="button" id="i3"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/clean-text"> clean-text </a></div>
+        <div class="button" id="i4"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/pattern-matching">
+            pattern-matching </a></div>
+        <div class="button" id="i5"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Tokenized-text$Keywords"> Keywords
+          </a></div>
+      </div>
+      {% endif %}
+    </td>
+    <td>{{datelist[f]}}</td>
+    <td>{{sizelist[f]}}</td>
+
+    {% else %}
+    {% if '.json' not in file[f] %}
+    <td><a href="{{request.url_root}}{{pathname}}/{{file[f]}}">{{file[f]}}</a></td>
+    {% if datelist[f] %}
+    <td>{{datelist[f]}}</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+
+    {% if sizelist[f] %}
+    <td>{{sizelist[f]}}</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+    {% endif %}
+    {%endif%}
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
