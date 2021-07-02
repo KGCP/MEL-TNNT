@@ -1,40 +1,16 @@
-# NLP-NER Toolkit Enhancements
-
-Git upload No.1
-
-// First Week 
-
-1. Learning RestAPI from https://flask-restful.readthedocs.io/en/latest/
-Starting to learn RestAPI from scratch.
-
-Python Virtual Environment (for Windows User):
-1. How to use Python Virtual Environment. 
-    a) cd ../python3.8.3/Script/activate.bat to activate the virtual environment
-    b) use pip3.8 install (packages) or python -m pip install (packages) to install packages
-        use python -m pip uninstall xxxx to uninstall (packages)
-    c) deactivate 
+# TNNT RESTful API + Enhancements
 
 ---
-Current packages:
-    1. flask
-    2. flask_restful
-    3. nltk
-    4. numpy
-    5. neuralcoref (require c++ 14.0 version or greater)
+## Current packages
+1. `flask`
+2. `flask_restful`
+3. `nltk`
+4. `numpy`
+5. `neuralcoref` (require c++ 14.0 version or greater)
 
 ---
-Test the program:
-1. Using curl command line to test the program
+## Usage
 
-#1 for the accept part:
-`curl -H "Accept: application/json" ../Use_case_1/Dataset`
-
-2. Using postman to test the program
-
-3. Allow Google chrome to see the server for testing
-
----
-Accepted path:
 1. The index website: `server_name:5000/`  
 
 2. Normal browsing: `server_name:5000/USECASE/DATASET/FILENAME(or HASHEDFILENAME)/METHOD/_output/CATERGORY/ENTITY`  
@@ -67,8 +43,3 @@ Note that: `~/_output/CATEGORY?Entity` is not accepted
 
 10. Predict the elapsed time in PT-DP
     `server_name:5000/USECASE/DATASET/FILENAME/MODEL?predict&tool=(stanza | spacy | * | all)`
-
-11. Things to do
-    `server_name:5000/USECASE/DATASET/FILENAME/MODEL?`
-
-12. Change the server config in read_file.py
