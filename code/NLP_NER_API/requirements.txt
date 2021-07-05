@@ -17,7 +17,6 @@ stanza_nlp = stanza.Pipeline('en')
 install `en_core_web_sm` in spacy:
 python -m spacy download en_core_web_sm
 
-
 import stanza
 stanza.install_corenlp(dir="YOUR_CORENLP_FOLDER")
 stanza.download_corenlp_models(model='chinese', version='4.1.0', dir="YOUR_CORENLP_FOLDER")
