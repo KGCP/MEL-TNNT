@@ -71,6 +71,7 @@ Implements a pipeline task to automate the extraction of categorised named entit
 - Google BERT.
 
 ## TNNT Architecture
+![TNNT Architecture](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-Architecture.png)
 ![UML Class Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-UML.png)
 
 **Processing Model**: TNNT has been fully integrated with MEL.  MEL settings establish the way how TNNT will process some specific block of NER models for the input dataset (either from content stored on CouchDB or from a direct document processing immediately after the metadata extraction).  The following diagram presents the toolkit’s processing model: the first two blocks are orchestrated by MEL.
