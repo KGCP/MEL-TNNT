@@ -241,11 +241,11 @@ class Utils:
         Utils._log.info(f"Execution time: {delta} seconds.")
 
     @staticmethod
-    def addItemInCountingList(list, key):
+    def addItemInCountingList(_list, key):
         if (key in list.keys()):
-            list[key] += 1 # counting repetitions
+            _list[key] += 1 # counting repetitions
         else: # first time the element is added in the list
-            list[key] = 1
+            _list[key] = 1
 
     @staticmethod
     def all_encodings():
@@ -269,7 +269,7 @@ class Utils:
     def isJSON(_str):
         try:
             JSON_object = json.loads(str(_str))
-        except ValueError as e:
+        except ValueError as _:
             return False
         return True
 
@@ -278,7 +278,7 @@ class Utils:
         _prettyfiedJSON = ""
         try:
             _prettyfiedJSON = json.dumps(obj, indent=_indent)
-        except Exception as e:
+        except Exception as _:
             return str(obj)
         return _prettyfiedJSON
 
@@ -327,14 +327,14 @@ class Dataset: # Local Dataset Configuration
     '''
     
     @staticmethod
-    def load(id):
-        if (id not in Utils.DATASETS):
-            Utils.output(f"Dataset *{id}* not found in the configuration file!\nThe current dataset ({Dataset._id}) will be kept.", _error=True, _print=True)
+    def load(_id):
+        if (_id not in Utils.DATASETS):
+            Utils.output(f"Dataset *{_id}* not found in the configuration file!\nThe current dataset ({Dataset._id}) will be kept.", _error=True, _print=True)
             return
-        if (id == Dataset._id): # prevents loading the current dataset settings 
+        if (_id == Dataset._id): # prevents loading the current dataset settings 
             return
         global DB
-        Dataset._id = id
+        Dataset._id = _id
         Dataset._   = Utils.DATASETS[Dataset._id]
         Dataset._db  = Dataset._["CouchDB"]
         DB = Dataset._db["Database"]
@@ -952,8 +952,8 @@ class Text:
         for name, pattern in Utils._config["Regular-Expressions"].items():
             matches = {}
             prog = re.compile(pattern, flags=(re.ASCII|re.MULTILINE))
-            list = prog.findall(self._cleanText)
-            for item in list:
+            _list = prog.findall(self._cleanText)
+            for item in _list:
                 # item is not string when the pattern has group definitions (item is a tuple of the pattern groups).
                 key = "".join(item) if not(isinstance(item, str)) else item
                 Utils.addItemInCountingList(matches, key)
@@ -1034,7 +1034,7 @@ class File:
 
     def setAttributes(self):
         if os.path.isfile(self.path):
-            filename, self.extension = os.path.splitext(self.path)
+            _, self.extension = os.path.splitext(self.path)
             self.dirname = os.path.dirname(self.path)
             self.name = os.path.basename(self.path)
             self.extension = "" + self.extension.translate({ord(c): None for c in '.'})
@@ -1170,9 +1170,9 @@ class File:
         def translateChar(c):
             return "_" if (ord(c) > 122) else c # if (ord(c) > ord('z'))
         
-        def getStrInEnglishCharacterSet(str):
+        def getStrInEnglishCharacterSet(_str):
             trans = ""
-            for c in str:
+            for c in _str:
                 trans = trans + translateChar(c)
             return trans
 
@@ -1260,7 +1260,7 @@ class File:
             if (text_read_ok):
                 EMPTY = ""
                 if (numberOfPages > 0):
-                    for p in range(numberOfPages):
+                    for _ in range(numberOfPages):
                         EMPTY += chr(12) # "Form Feed (FF)" character
                     Utils.output(f"... Num-pages={numberOfPages} | EMPTY={EMPTY}", _print=False)
                 if (text == EMPTY): # If can not extract text then use OCR lib to extract the scanned PDF file.
@@ -1653,17 +1653,17 @@ The order of replacements IS IMPORTANT and may incurred in failures if they are 
         oleMetadata, omOLEfile, omParsingIssues = {}, {}, {}
         if (olefile.isOleFile(self.path)): # only files that had been detected as "OLE".
             o = os.popen('olemeta "' + self.path + '"').read() # runs the olemeta utility
-            property = ""
+            _property = ""
             for line in o.split('\n'):
                 match = re.search(r'\|[\w.-]+', line)
                 if (match):
                     key_value = line.split('|') # # each line has the structure: "|Property             |Value                         |"
                     if (key_value[1].strip() != "Property"):
                         if (key_value[1].strip() != ""):
-                            property = key_value[1].strip()
-                            oleMetadata[property] = key_value[2].strip()
+                            _property = key_value[1].strip()
+                            oleMetadata[_property] = key_value[2].strip()
                         else: # append the additional line as part of the value.
-                            oleMetadata[property] = oleMetadata[property] + " " + key_value[2].strip()
+                            oleMetadata[_property] = oleMetadata[_property] + " " + key_value[2].strip()
             text_content = ""
             with olefile.OleFileIO(self.path) as ole: # perform all operations on the ole object
                 if ole.parsing_issues:
@@ -1961,7 +1961,7 @@ We ignore this type of failure... and, unfortunately, we won't be able to retrie
                 zip_ref.extractall(ZIP_targetDir)
             Utils.output(f"ZIP temporal directory: [{ZIP_targetDir}]", _print=False)
         zipMetadata, n = {}, 0
-        for dirName, subdirList, fileList in os.walk(ZIP_targetDir):
+        for dirName, _, fileList in os.walk(ZIP_targetDir):
             _folder = os.path.basename(dirName)
             Utils.output(f"* Folder: '{dirName}'\n* Number of files found: {len(fileList)}", _print=False)
             for _filename in fileList: # for each file in the ZIP file.
@@ -2183,7 +2183,7 @@ class Directory:
         processed = 0
         def addDoc(f): # adds the document on CouchDB
             nonlocal processed
-            r, result, metadata = CouchDB.addDocument(f) # performs the metadata extraction...
+            _, result, metadata = CouchDB.addDocument(f) # performs the metadata extraction...
             if ((result is not None) and (result)):
                 if ("ok" in result):
                     if (result["ok"] == True):
@@ -2413,7 +2413,7 @@ class NER:
             Utils.output(f"... processing the models on the document (hold on)...", _print=True)
             models2process = NER.models.copy() # copy the list of models to process from the *default* model list
             if (current_NER_results): # if there are some preliminary results
-                for m, desc in current_NER_results.items(): # for each model "m" in the results
+                for m, _ in current_NER_results.items(): # for each model "m" in the results
                     if (m in models2process):
                         models2process.remove(m) # the model "m" has already been processed -> remove it from the models to process.
             NER.process(input_doc, models2process) # full result is stored in *NER._last_result*
@@ -2429,7 +2429,7 @@ class NER:
 
         def addDoc(): # adds the NLP/NER results on CouchDB
             doc = File(JSONmetadata=output, path="", useCase="", defaultDirAttributes={})
-            http_res, add_res, metadata = CouchDB.addDocument(doc, CouchDB._NER_end_point)
+            http_res, add_res, _ = CouchDB.addDocument(doc, CouchDB._NER_end_point)
             if ( ((add_res is not None) and (add_res)) and ((http_res is not None) and (http_res)) ):
                 if ("ok" in add_res):
                     if (add_res["ok"] == True):
