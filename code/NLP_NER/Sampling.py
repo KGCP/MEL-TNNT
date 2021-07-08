@@ -1,5 +1,5 @@
-from NLP_NER.EntitiyRecognition import NER
-from NLP_NER.EntitiyRecognition import NERUtils
+from NLP_NER.EntityRecognition import NER
+from NLP_NER.EntityRecognition import NERUtils
 import random
 import json
 import platform

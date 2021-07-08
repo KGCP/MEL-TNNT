@@ -242,7 +242,7 @@ class Utils:
 
     @staticmethod
     def addItemInCountingList(_list, key):
-        if (key in list.keys()):
+        if (key in _list.keys()):
             _list[key] += 1 # counting repetitions
         else: # first time the element is added in the list
             _list[key] = 1
@@ -2609,7 +2609,7 @@ if (    ( (Dataset.NERenabled())  and (not NER.loaded) ) and\
         ( (__name__ == "__main__") or ((__name__ == "MEL") and (__package__ == 'MEL')) )\
     ):
     import NLP_NER
-    import NLP_NER.EntitiyRecognition as _NLP_NER
+    import NLP_NER.EntityRecognition as _NLP_NER
     import NLP_NER.Sampling as Sampling
     init() # MEL.init() --> loads the configuration file.  Checks whether the NER parameters are activated.
     Utils._log.info(f"******************************************************************************")
