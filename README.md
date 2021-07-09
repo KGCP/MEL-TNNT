@@ -38,7 +38,7 @@ Implements a set of classes and functions to extract metadata (and textual conte
 ![Processing Model](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-ProcessingModel.png)
 
 ## Overview Demo
-- [ISWC 2021 - Posters & Demos Track: demo videos](https://bit.ly/3h5iE5M)
+- [ISWC 2021 - Posters & Demos Track: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
 
 
 ---
@@ -99,12 +99,12 @@ From the implemented models, the toolkit can recognised entities from the follow
 - `CARDINAL`: Numerals that do not fall under another type.
 
 ## Overview Demo
-- [ISWC 2021 - Posters & Demos Track: demo videos](https://bit.ly/3h5iE5M)
+- [ISWC 2021 - Posters & Demos Track: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
 
 
 ---
 # Contacts
-- Sergio Rodriguez <`Sergio.RodriguezMendez [at] anu.edu.au`>
+- Sergio J. Rodríguez Méndez <`Sergio.RodriguezMendez [at] anu.edu.au`>
 
 # License
 {MEL+TNNT} is publicly available under an MIT license, as specified in the [LICENSE](https://github.com/KGCP/MEL-TNNT/blob/master/LICENSE) file.
