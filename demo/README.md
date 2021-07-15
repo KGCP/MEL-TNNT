@@ -23,6 +23,6 @@ The demo videos can be seen online at the following [link](https://anu365-my.sha
 - `6_result`: explanations on the output results by running MEL+TNNT.  
 - `7_API_TNNT`: RESTful API functionality integrated with TNNT to browse through the JSON output results.
 
-The demo videos can be seen online at the following [link](https://anu365-my.sharepoint.com/:f:/g/personal/u7064900_anu_edu_au/EvSqVa_6ma9Dp7JZ7m5Qgt4BKIxXwAVEFZMu3w0E70vuVQ)
+The demo videos can be seen online at the following [link](https://anu365-my.sharepoint.com/:f:/g/personal/u7064900_anu_edu_au/EvSqVa_6ma9Dp7JZ7m5Qgt4Banscwr_cUu8p6wjaqOO9hA)
 
 ---
