@@ -8,7 +8,8 @@
 - `3 - Design + Processing Model`: design and general processing model.  
 - `4 - Configuration`: MEL versatile settings (configuration file).  
 - `5 - Processing Models + Outputs`: some processing models and JSON outputs examples.  
-- `6 - Input-Folder, XML Metadata, CouchDB, Logs`: More details.  
+- `6 - Input-Folder, XML Metadata, CouchDB, Logs`: more details.  
+- `7 - Running Example`: running an example.  
 
 The demo videos can be seen online at the following [link](https://anu365-my.sharepoint.com/:f:/g/personal/u1085404_anu_edu_au/Epa1iAsBKodMplX8uozAf_EBBuLyDuE4DSU06fYGRlpyrQ)
 
