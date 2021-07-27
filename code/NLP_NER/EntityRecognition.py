@@ -152,7 +152,7 @@ class AllennlpNer:
 
     @staticmethod
     def load_finegrained_ner_model():
-        AllennlpNer.finegrained_ner_predictor = Predictor.from_path(NERUtils.allennlp_ner_path)
+        AllennlpNer.finegrained_ner_predictor = Predictor.from_path(NERUtils.allennlp_finegrained_ner_path)
         AllennlpNer.finegrained_ner_predictor._dataset_reader._token_indexers['token_characters']._min_padding_length = 3
 
     @staticmethod
