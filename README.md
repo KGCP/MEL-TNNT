@@ -98,8 +98,10 @@ From the implemented models, the toolkit can recognised entities from the follow
 - `ORDINAL`: "first", "second", etc.
 - `CARDINAL`: Numerals that do not fall under another type.
 
+![Category classification from the models' perspective](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-CategoryClassification-ModelsPerspective.png)
+
 ## Overview Demo
-- [ISWC 2021 - Posters & Demos Track: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
+- [K-CAP 2021: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
 
 
 ---
