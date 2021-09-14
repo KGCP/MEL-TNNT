@@ -1,12 +1,17 @@
-# TNNT RESTful API + Enhancements
+# TNNT RESTful API: NLP Enhancements
+
+---
+## Architecture
+![Architecture Diagram](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-RESTful-API-Architecture.png)
 
 ---
 ## Current packages
-1. `flask`
-2. `flask_restful`
-3. `nltk`
-4. `numpy`
-5. `neuralcoref` (require c++ 14.0 version or greater)
+1. `python` (`3.8.4`)
+2. `flask` (`2.0.1`)
+3. `flask_restful` (`0.3.9`)
+4. `numpy` (`1.21.0`)
+5. `spaCy` (`3.0.6`)
+6. `stanza` (`1.2.1`)
 
 ---
 ## Usage
@@ -43,3 +48,7 @@ Note that: `~/_output/CATEGORY?Entity` is not accepted
 
 10. Predict the elapsed time in PT-DP
     `server_name:5000/USECASE/DATASET/FILENAME/MODEL?predict&tool=(stanza | spacy | * | all)`
+
+11. Coreference Task
+    `~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)` [MEL+NER_output]
+    OR `~/FILENAME/MODEL?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)` [regular outputs]
