@@ -7,11 +7,24 @@
 <!-- heading -->
 {% block heading %}
 {% if pathname == '/' %}
-<h1>Index</h1>
+<h1>The NLP-NER Toolkit (TNNT) | Home</h1>
 {% elif title == '' %}
-<h1> {{pathname}}</h1>
-{% else%}
-<h1> {{title}} </h1>
+{% set pathlength =  pathname.split('/')|length %}
+<div class="inline"> 
+<a href = "{{request.url_root}}"><img alt = "home", src = "{{ url_for('static', filename='home.png') }}"></a>
+{% for p in range(0,pathlength) %}
+  {% set path = namespace(string="") %}
+  {% for f in range (0,p+1) %}
+    {% set path.string = path.string ~ "/" ~ pathname.split('/')[f] %}
+  {% endfor %}
+  <!-- remove blanks -->
+{% if pathname.split('/')[p] != ""%}
+<a class= "ui" href= '{{path.string}}'> {{pathname.split('/')[p]}} / </a>
+{% endif %}
+{% endfor %}
+</div>
+{% else %}
+<h1><a href = "{{request.url_root}}"><img alt = "home", src = "{{ url_for('static', filename='home.png') }}"></a> {{title}} </h1>
 {% endif %}
 {% endblock %}
 
@@ -21,36 +34,68 @@
 <table style="width:100%" id="t01">
   <tr>
     <th>Filename</th>
+    {% if datelist != None %}
+    <th>Sentences</th>
     <th>Modified Date</th>
     <th>Size of File (byte)</th>
+    {% endif %}
   </tr>
   {% for f in range(0,len) %}
   {% if pathname == '/' %}
     {% for key,value in file.items()%}
   <tr>
-    <td><a href="{{request.root_url}}/{{value}}"> {{key}} </a> </td>
+    <td><a href="{{request.url_root}}{{value}}"> {{key}} </a> </td>
+    <!-- <td></td>
     <td></td>
-    <td></td>
+    <td></td> -->
     {% endfor %}
     <!-- the json orientation part -->
     {% elif '--' in file[f] %}
-
     <td>
+      {% if  file[f].split('--')|length >2 %}
+        {% set path = namespace(string="") %}
+        {% for ix in range(1,file[f].split('--')|length) %}
+        {% set path.string = path.string ~ "/" ~ file[f].split('--')[ix] %}
+        {% endfor %}
+        <a href="/{{pathname}}/{{path.string}}">{{file[f]}}</a>
+      {% else %}
       <a href="/{{pathname}}/{{file[f].split('--')[1]}}">{{file[f]}}</a>
-      {% if 'MEL+NER' in file[f] %}
-      <div class="flex-container">
-        <div class="button" id="i1"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/General-Metadata">
-            General-Metadata </a></div>
-        <div class="button" id="i2"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Specific-Metadata">
-            Specific-Metadata </a></div>
-        <div class="button" id="i3"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/clean-text"> clean-text </a></div>
-        <div class="button" id="i4"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/pattern-matching">
-            pattern-matching </a></div>
-        <div class="button" id="i5"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Tokenized-text$Keywords"> Keywords
-          </a></div>
-      </div>
+      {% endif %}
+      {% if 'MEL+NER' in file[f] and 'PT_DP' in file[f] %}
+        <div class="flex-container">
+          <div class="button" id="i1"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/General-Metadata">
+              General-Metadata </a></div>
+          <div class="button" id="i2"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/Specific-Metadata">
+              Specific-Metadata </a></div>
+          <div class="button" id="i3"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/clean-text"> clean-text </a></div>
+          <div class="button" id="i4"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/pattern-matching">
+              pattern-matching </a></div>
+          <div class="button" id="i5"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/Tokenized-text$Keywords"> Keywords
+            </a></div>
+            <div class="button" id="i1"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/POS-tagging"> POS-tagging
+            </a></div>
+            <div class="button" id="i2"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/{{file[f].split('--')[2]}}/dependency-parsing"> dependency-parsing
+            </a></div>
+        </div>
+        {% elif 'MEL+NER' in file[f] and not 'PT_DP' in file[f]  %}
+          <div class="flex-container">
+            <div class="button" id="i1"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/General-Metadata">
+                General-Metadata </a></div>
+            <div class="button" id="i2"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Specific-Metadata">
+                Specific-Metadata </a></div>
+            <div class="button" id="i3"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/clean-text"> clean-text </a></div>
+            <div class="button" id="i4"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/pattern-matching">
+                pattern-matching </a></div>
+            <div class="button" id="i5"><a href="/{{pathname}}/{{file[f].split('--')[1]}}/Tokenized-text$Keywords"> Keywords
+              </a></div>
+          </div>
       {% endif %}
     </td>
+    {% if containsentencelist %}
+    <td> {{ containsentencelist[f] }}</td>
+    {% else %}
+    <!-- <td></td> -->
+    {% endif %}
     <td>{{datelist[f]}}</td>
     <td>{{sizelist[f]}}</td>
 
@@ -60,13 +105,13 @@
     {% if datelist[f] %}
     <td>{{datelist[f]}}</td>
     {% else %}
-    <td></td>
+    <!-- <td></td> -->
     {% endif %}
-
+    <!-- <td></td> -->
     {% if sizelist[f] %}
     <td>{{sizelist[f]}}</td>
     {% else %}
-    <td></td>
+    <!-- <td></td> -->
     {% endif %}
     {% endif %}
     {%endif%}

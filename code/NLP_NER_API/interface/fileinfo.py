@@ -1,9 +1,9 @@
 import datetime
-import pathlib
+from pathlib import Path
 
 
 def createDate(filepath):
-    fname = pathlib.Path(filepath)
+    fname = Path(filepath)
     mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).replace(microsecond=0)
     return mtime
 
@@ -14,7 +14,7 @@ def createDateList(filefullpath):
     return datelist
 
 def size(filepath):
-    msize = pathlib.Path(filepath).stat().st_size
+    msize = Path(filepath).stat().st_size
     return msize
 
 def sizeList(filefullpath):

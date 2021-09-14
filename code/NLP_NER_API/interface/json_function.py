@@ -1,9 +1,12 @@
 from pathlib import PurePath, Path
 from path_function import head,pathExceptHead
 
-# dump the json results
+"""
+If the string_list is a list containing one elements then remove the square brackets.
+Otherwise donothing but add the key of dictionary.
+"""
 def Json_dump(name, string_list):
-    if len(string_list) == 1:
+    if len(string_list) == 1 and isinstance(string_list,list):
         js_output = {name : string_list[0]}
     else:
         js_output = {name : string_list}
@@ -13,15 +16,26 @@ def Json_dict(name,d):
     return {name:d}
 
 # extract the Jsonfile
-def recursive(jsonfile, path):
-    if path == PurePath():
-        return readJson(jsonfile,'_stats')
-    # iterate the path
-    content = jsonfile
-    while not path == PurePath():
-        headpath = head(path)
-        content = readJson(content,headpath)
-        path = pathExceptHead(path)
+def recursive(jsonfile, path, is_MEL_NER, is_in_keyword):
+    if not (is_MEL_NER and is_in_keyword):
+        if path == PurePath():
+            return readJson(jsonfile,'_stats')
+        # iterate the path
+        content = jsonfile
+        while not path == PurePath():
+            headpath = head(path)
+            content = readJson(content,headpath)
+            path = pathExceptHead(path)
+    else:
+        if path == PurePath():
+            path = '_stats'
+        content = dict()
+        for doc in jsonfile['NLP-NER']:
+            for d_k, d_v in doc.items():
+                content[d_k] = dict()
+                for m_k,m_v in d_v.items():
+                    if isinstance(m_v,dict) and str(path) in m_v.keys():
+                        content[d_k][m_k] = m_v[str(path)]
     return content
 
 def readJson(obj, key):
@@ -79,34 +93,38 @@ def findEntityValue(obj,entityKey,entityValue):
 def findEntityValueWithKey(obj,entityKey,entityValue,key):
     return Json_dict(key,findEntityValue(obj,entityKey,entityValue))
 
-# if start is not none, then it gives string starts with particular substring
-# if end is not none, then it gives string ends with particular substring
-def searchKeyWord(sections, keyword, start=None, end=None, l =[]):
-    # if part is list
+"""
+if start is not none, then it gives string starts with particular substring
+if end is not none, then it gives string ends with particular substring
+"""
+def searchKeyWord(sections, keyword, start=None, end=None, l = {}):
+    # split every word in the list with the space
     def checkIfcontainSubword(keyword,targetword,start,end):
-        if start and end is None:      
-            return str(targetword).startswith(str(keyword))
-        elif start is None and end:
-            return str(targetword).endswith(str(keyword))
-        elif start and end:
-            return str(keyword) in str(targetword)
+        split_word = str(targetword).split(" ")
+        for word in split_word:
+            print(word)
+            if (start and end is None) and str(word).startswith(str(keyword)):      
+                print(word)
+                return True
+            elif (start is None and end) and str(word).endswith(str(keyword)):
+                return True
+            elif (start and end) and str(keyword) in str(word):
+                return True
         return False
+    
     # these breaks are used to avoid duplicates
     if isinstance(sections,list):
         for section in sections:
             searchKeyWord(section,keyword,start, end, l)
     elif isinstance(sections,dict):
-        for entities in sections.values():
-            for entity in entities:
-                for attribute in entity.values():
-                    if not isinstance(attribute,str):
-                        if checkIfcontainSubword(keyword,attribute,start,end):
-                            l.append(entity)
-                            break
-                    else:
-                        for word in attribute.split(' '):
-                            if checkIfcontainSubword(keyword,word,start,end):
-                                l.append(entity)
-                                break
-                        break
+        for key,entities in sections.items():
+            for ent in entities:
+                if checkIfcontainSubword(keyword,ent,start,end):
+                    print(ent)
+                    l.setdefault(key,[]).append(ent)
+            # break
+                
     return l
+
+
+

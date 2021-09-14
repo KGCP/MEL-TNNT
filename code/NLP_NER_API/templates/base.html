@@ -13,8 +13,106 @@
 
     {% block heading %} {% endblock %}
     {% block content %} {% endblock %}
+    <div class="center">
+        <div class="pagination">
+            {% set number_of_page = [pagenum,max_pages_in_row]|min %}
+            {% if number_of_page > 1 %}
+            {% if pathname == '/'%}  
+                {% if pagenum > max_pages_in_row %}
+                <a href="#" onclick="backward()">&laquo;</a>
+                {% endif %}
 
+                {% if page_no < max_pages_in_row %}
+                {% for i in range(0,number_of_page) %}
+                <a href="/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% elif page_no > pagenum - max_pages_in_row %}
+                {% for i in range(pagenum - max_pages_in_row,pagenum) %}
+                <a href="/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% else %}
+                {% set leftinterval = max_pages_in_row//2 %}
+                {% set rightinterval = max_pages_in_row//2 + max_pages_in_row%2 %}
+                {% for i in range(page_no - leftinterval-1,page_no + rightinterval-1 ) %}
+                <a href="/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% endif %}
+
+                {% if pagenum > max_pages_in_row %}
+                <a href="#" onclick="forward()">&raquo;</a>
+                {% endif %}
+            {% else %}
+                {% if pagenum > max_pages_in_row %}
+                <a href="#" onclick="backward()">&laquo;</a>
+                {% endif %}
+
+                {% if page_no < max_pages_in_row %}
+                {% for i in range(0,number_of_page) %}
+                <a href="/{{pathname}}/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% elif page_no > pagenum - max_pages_in_row %}
+                {% for i in range(pagenum - max_pages_in_row,pagenum) %}
+                <a href="/{{pathname}}/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% else %}
+                {% set leftinterval = max_pages_in_row//2 %}
+                {% set rightinterval = max_pages_in_row//2 + max_pages_in_row%2 %}
+                {% for i in range(page_no - leftinterval-1,page_no + rightinterval-1 ) %}
+                <a href="/{{pathname}}/?page={{i+1}}" class="page_link">{{i+1}}</a>
+                {% endfor %}
+                {% endif %}
+
+                {% if pagenum > max_pages_in_row %}
+                <a href="#" onclick="forward()">&raquo;</a>
+                {% endif %}
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
 	<hr />
 	<p style="font-family:Arial;color:blue;text-align:right">2020 - 2021, KGET/SoCo/CECS/ANU</p>
+    <script>
+        var pagenum = "{{pagenum}}";
+        var len = document.getElementsByClassName("page_link").length;
+        
+        function backward(){
+            var firstelement = Number(document.getElementsByClassName("page_link")[0].innerHTML);
+            for (i = 0; i < len; i++) {
+                if (firstelement >1){
+                    var link = document.getElementsByClassName("page_link")[i];
+                    link.innerHTML = Number(link.innerHTML) - 1;
+                    link.href = "/{{pathname}}/?page=" + link.innerHTML;
+                }
+            }
+            return update();
+        }
+
+        function forward(){
+            var lastelement = Number(document.getElementsByClassName("page_link")[len-1].innerHTML);
+            for (i = 0; i < len; i++) {
+                if (lastelement < Number(pagenum)){
+                    var link = document.getElementsByClassName("page_link")[i];
+                    link.innerHTML = Number(link.innerHTML) + 1;
+                    link.href = "/{{pathname}}/?page=" + link.innerHTML;
+                }
+            }
+            return update();
+        }
+        
+        // change the page block to blue
+        function update(){
+            for (i = 0; i < len; i++) {
+                var link = document.getElementsByClassName("page_link")[i];
+                if (link.innerHTML == "{{page_no}}"){
+                    link.style.background = "blue";
+                }else{
+                    link.style.background = "none";
+                }
+            }
+        }
+
+        update();
+        
+    </script>
 </body>
 </html>

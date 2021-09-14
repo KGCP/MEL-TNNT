@@ -23,9 +23,9 @@ def depth(pathname):
 ################################################################################################
 # traverse the path to get the path to file, filename and the information it need about the file 
 # filename and the information can be empty.---------------------------------------------------#
-def extractPathInfo(base,path):
+def extractPathInfo(base,path,allowed_attribute):
     pathToJson = PurePath()
-    filenameandMethod = []
+    filenameandMethods = []
     fileAttribute = PurePath()
     while not path == PurePath():
         headpath = head(path)
@@ -34,13 +34,16 @@ def extractPathInfo(base,path):
             pathToJson = Path(pathToJson).joinpath(headpath)
         else:
             if depth(path) == 1:
-                filenameandMethod = [get(path,0)]
+                filenameandMethods = [get(path,0)]
             else:
-                filenameandMethod = [get(path,0),get(path,1)]
+                filenameandMethods = [get(path,0),str(get(path,1))]
                 fileAttribute = Path(*Path(path).parts[2:])
+                if depth(path) > 2 and has_attribute(allowed_attribute,str(get(path,2))):
+                    filenameandMethods = [get(path,0),str(get(path,1)),str(get(path,2))]
+                    fileAttribute = Path(*Path(path).parts[3:])
             break
         path = pathExceptHead(path)
-    return pathToJson,filenameandMethod,fileAttribute
+    return pathToJson,filenameandMethods,fileAttribute
 
 def traversePathIfExist(base,path,allowedpath):
     # check if the path exists
@@ -63,3 +66,11 @@ def checkIfAllowed(base,allowedpath):
         if value in str(base):
             return True
     return False
+
+def has_attribute(allowed_attribute,a):
+    for attr in allowed_attribute:
+        if (attr in a):
+            return True
+    return False
+
+    
