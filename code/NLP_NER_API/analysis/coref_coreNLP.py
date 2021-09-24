@@ -4,9 +4,11 @@ import json
 sys.path.append(os.path.join(sys.path[0],'..'))
 from read_file import config
 
-os.environ["CORENLP_HOME"] = config["package-settings"]["core-nlp"]["home-directory"]
-memorysize = config["package-settings"]["core-nlp"]["memory-size"]
-
+core_nlp_settings = config['package-settings']['core-nlp']
+os.environ["CORENLP_HOME"] = core_nlp_settings['home-directory']
+memorysize = core_nlp_settings['memory-size']
+timeout = core_nlp_settings['timeout']
+suppress_output = bool(core_nlp_settings['suppress_output'])
 # classpath = '"D:\\Comp4550\\stanford-corenlp-4.2.2\\*"'
 # ENG_COREFERENCE = {'coref.model' : "D:\\Comp4550\\stanza_model\\stanford-corenlp-4.2.2-models-english.jar"}
 class coreNLP:
@@ -16,14 +18,14 @@ class coreNLP:
     """
         the coreNLP function is used for coreference resolution tasks in NLP task
     """
-    def generate(self,memory = 8):
+    def generate(self):
         with CoreNLPClient(
                 properties = "en",
                 annotators= 'tokenize,ssplit,pos,lemma,ner,depparse,coref',
-                timeout=30000,
+                timeout=timeout,
                 memory= memorysize,
                 output_format = 'json',
-                be_quiet = True) as client:
+                be_quiet = suppress_output) as client:
             return client.annotate(self.string)
 
     def formatjson(self):

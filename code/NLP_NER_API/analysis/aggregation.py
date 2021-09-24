@@ -95,12 +95,16 @@ def mode(lst_of_attr):
     mode = statistics.mode(frequencies(lst_of_attr)['Frequencies'])
     return {"Mode": mode}
 
+def multimode(lst_of_attr):
+    multi_mode = statistics.multimode(frequencies(lst_of_attr)['Frequencies'])
+    return {"Multi-mode": multi_mode}
+
 def std(lst_of_attr):
     lst = frequencies(lst_of_attr)['Frequencies']
     if len(lst) > 2:
         standard_deviation = statistics.stdev(frequencies(lst_of_attr)['Frequencies'])
     else: return None
-    return {"Standard-Deviation" : standard_deviation}
+    return {"Standard Deviation" : standard_deviation}
 
 def var(lst_of_attr):
     lst = frequencies(lst_of_attr)['Frequencies']
@@ -108,6 +112,20 @@ def var(lst_of_attr):
         variance = statistics.variance(lst)
     else: return None
     return {"Variance" : variance}
+
+def quartile(lst_of_attr):
+    lst = frequencies(lst_of_attr)['Frequencies']
+    if len(lst) > 4:
+        quartiles = list(map(round, statistics.quantiles(lst,n=4)))
+    else: return None
+    return {"Quartile" : quartiles}
+
+def geomean(lst_of_attr):
+    lst = frequencies(lst)['Frequencies']
+    geo_mean = round(statistics.geometric_mean(lst), 1)
+    return {"Geometric Mean" : geo_mean}
+
+
 # group
 # l is a dictionary which is like ------------------------------------------------------------------------# 
 # {'basedir\\Use_case_1\\Dataset\\2017-18 PBS - Finance.pdf--NER--8e8cca60facbdf.json': ------------------#
@@ -117,7 +135,6 @@ def var(lst_of_attr):
 # the key is path to json without model and the value is existing model-----------------------------------#
 # it merges every model and provide the results ----------------------------------------------------------#
 def aggregate_jsonfile_summary(l):
-    
     def getAggregatedNER_JSONobj(_json):
         if ('NLP-NER-Aggregated-Summary' in _json.keys()):
             return _json['NLP-NER-Aggregated-Summary']
@@ -156,8 +173,11 @@ def aggregate_jsonfile_summary(l):
                 for func in allowed_aggregation_function:
                     # use different function
                     key = func
-                    value = eval(key)(normalise_list(models))
-                    _json_[cate_name][doc][entity][key] = value
+                    try:
+                        value = eval(key)(normalise_list(models))
+                        _json_[cate_name][doc][entity][key] = value
+                    except:
+                        print(f"Your function request {key} does not exist")
         return _json_
                     
 
@@ -199,32 +219,34 @@ def aggregate_jsonfile_summary(l):
     file_summaries[2] is summary by entity with stats
     file_summaries[3] is summary by category with stats 
     """
-    for key in l.keys():
-        tailpath = str(Path(key).parts[-1])
-        jsonpath = pf.pathExceptTail(key)
-        # generate the summary json file
-        summary_names = [ '{}--{}--(summary)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
-        '{}--{}--(summary-by-category)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
-        '{}--{}--(summary)--(stats)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
-        '{}--{}--(summary-by-category)--(stats)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1])]
-        summary_paths = []
-        for i in range(4):
-            summary_paths.append(Path(jsonpath).joinpath(summary_names[i]))
+    key = list(l.keys())[0]
+    tailpath = str(Path(key).parts[-1])
+    jsonpath = pf.pathExceptTail(key)
+    # generate the summary json file
+    summary_names = [ '{}--{}--(summary)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
+    '{}--{}--(summary-by-category)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
+    '{}--{}--(summary)--(stats)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1]), \
+    '{}--{}--(summary-by-category)--(stats)--{}'.format(tailpath.split('--')[0],tailpath.split('--')[1],tailpath.split('--')[-1])]
+    summary_paths = []
+    for i in range(4):
+        summary_paths.append(Path(jsonpath).joinpath(summary_names[i]))
 
-        # if file exists then do nothing
-        if summary_paths[0].exists() or summary_paths[1].exists() \
-            or summary_paths[2].exists() or summary_paths[3].exists():
-            # return two empty dictionaries
-            return [dict() for _ in range(4)]
+    # if file exists then do nothing
+    if summary_paths[0].exists() or summary_paths[1].exists() \
+        or summary_paths[2].exists() or summary_paths[3].exists():
+        # return two empty dictionaries
+        return [dict() for _ in range(4)]
 
-        for value in l[key]:
-            with open(value) as file:
-                jsonfile = json.load(file)
-                if str(summary_paths[0]) not in file_summaries[0] :
-                    file_summaries[0] = getSummaryNER_JSONobj(jsonfile)
-                else:
-                    file_summaries[0] = update_aggregation(file_summaries[0] , getSummaryNER_JSONobj(jsonfile))
-
+    for value in l[key]:
+        with open(value) as file:
+            jsonfile = json.load(file)
+            # jsonfilepath => summary_paths[0], filename_summary => file_summaries[0] 
+            if str(summary_paths[0]) not in file_summaries[0] :
+                file_summaries[0].update({str(summary_paths[0]) : getSummaryNER_JSONobj(jsonfile)})
+            else:
+                file_summaries[0][str(summary_paths[0])] = update_aggregation(file_summaries[0][str(summary_paths[0])] , getSummaryNER_JSONobj(jsonfile))
+    # calculate each file summaries
+    file_summaries[0] = file_summaries[0][str(summary_paths[0])] 
     file_summaries[0] = insert_general_metadata(jsonfile,file_summaries[0])
     file_summaries[1] = aggregated_Summary_By_Category(file_summaries[0])
     file_summaries[2] = summary_stats(file_summaries[0])

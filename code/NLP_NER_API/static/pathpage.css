@@ -11,12 +11,12 @@ th, td {
     display: inline-block;
     border: none;
     color: white;
-    padding: 15px 20px;
+    padding: 10px 15px;
     margin: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 #i1 {background-color: #4CAF50;} /* Green */
@@ -24,8 +24,44 @@ th, td {
 #i3 {background-color: #f44336;} /* Red */
 #i4 {background-color: #e7e7e7; color: black;} /* Gray */
 #i5 {background-color: #555555;} /* Black */
+#i6 {background-color: #621272;} /* Black */
 
 .flex-container{
     display: inline-block;
     padding: 5px;
 }
+
+.center {
+    text-align: center;
+    margin: 10px 10px;
+  }
+  
+  .pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.inline{
+  display: inline;
+  font-size: 25px;
+  padding:5px;
+}
+
+.ui a:hover{color:rgb(64, 66, 197);}

@@ -68,6 +68,9 @@
         },
         "ERROR_COREF_IS_EXIST": {
             "ERROR": "The file exists, you may want to replace it?"
+        },
+        "ERROR_COREF": {
+            "ERROR": "An error happens in coreference."
         }
     },
     "abbreviation-of-word-dict": {
@@ -105,7 +108,7 @@
         },
         "CoRef_task": {
             "repl": "replace",
-            "retr": "retrieve"
+            "retrieve" : ["full","corefs", "sentences" ]
         },
         "pt-dp-args": {
             "pt-dp-tool": {
@@ -128,24 +131,27 @@
                 "search": "E.g.: /Usecase_1?search=<keyword>"
             },
             {
-                "aggr": "E.g.: /USECASE/DATASET/FILENAME?aggr"
+                "aggr": "E.g. : /USECASE/DATASET/FILENAME?aggr"
+            },
+            {
+                "coref": "E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences) or E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)"
             }
         ],
         [
             {
-                "pos-tag": "E.g.: ~/FILENAME/MODEL?PT_DP_tasks&tool=(stanza | spacy | * | all)&replace=(0 | 1) "
+                "pos-tag": "E.g. : ~/FILENAME/MODEL?PT_DP_tasks&tool=(stanza | spacy | * | all)&replace=(0 | 1) "
             },
             {
-                "pos-tag-prediction": "E.g.: ~/FILENAME/MODEL?predict&tool=(stanza | spacy | * | all)"
+                "pos-tag-prediction": "E.g. ~/FILENAME/MODEL?predict&tool=(stanza | spacy | * | all)"
             },
             {
-                "Search for whole entity": "E.g.: /USECASE/DATASET/FILENAME(or HASHEDFILENAME)/METHOD/_output/CATERGORY/ENTITY?(indexes | start_index | end_index | sentence | model | category | count)"
+                "Search for whole entity": "/USECASE/DATASET/FILENAME(or HASHEDFILENAME)/METHOD/_output/CATERGORY/ENTITY?(indexes | start_index | end_index | sentence | model | category | count)"
             },
             {
-                "Match search for an entity": "E.g.: ~/_output/CATEGORY?*Entity*"
+                "Match search for an entity": "~/_output/CATEGORY?*Entity*"
             },
             {
-                "coref": "E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences) or E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)"
+                "coref" : "E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences) or E.g.:  ~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)"
             }
         ],
         [
@@ -163,12 +169,15 @@
     "package-settings": {
         "core-nlp": {
             "home-directory": "/data/NLP-NER-Tools/stanford-corenlp-4.2.2",
-            "memory-size": "8G"
+            "timeout" : 15000000,
+            "memory-size": "64G",
+            "suppress_output" : 1
         },
         "stanza": {
             "resources-directory": "/data/NLP-NER-Tools/stanza_resources/en"
         }
     },
+
     "allowed-attribute": [
         "PT_DP",
         "coref",
@@ -187,9 +196,13 @@
         "mean",
         "median",
         "mode",
+        "multimode",
         "std",
-        "var"
+        "var",
+        "geomean",
+        "quartile"
     ],
+
     "html-templates": {
         "max-elements-in-page": 50,
         "max-pages-in-row": 10
