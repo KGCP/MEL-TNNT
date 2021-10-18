@@ -85,7 +85,7 @@ From the implemented models, the toolkit can recognised entities from the follow
 - `ORG`: Companies, agencies, institutions, etc.
 - `GPE`: Countries, cities, states.
 - `LOC`: Non-GPE locations, mountain ranges, bodies of water.
-- `RODUCT`: Objects, vehicles, foods, etc. (Not services.)
+- `PRODUCT`: Objects, vehicles, foods, etc. (Not services.)
 - `EVENT`: Named hurricanes, battles, wars, sports events, etc.
 - `WORK_OF_ART`: Titles of books, songs, etc.
 - `LAW`: Named documents made into laws.
