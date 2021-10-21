@@ -12,6 +12,7 @@
 4. `numpy` (`1.21.0`)
 5. `spaCy` (`3.0.6`)
 6. `stanza` (`1.2.1`)
+7. `gevent` (`21.8.0`)
 
 ---
 ## Usage
@@ -51,4 +52,10 @@ Note that: `~/_output/CATEGORY?Entity` is not accepted
 
 11. Coreference Task
     `~/FILENAME?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)` [MEL+NER_output]
-    OR `~/FILENAME/MODEL?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)` [regular outputs]
+    OR `~/FILENAME/MODEL?CoRef_task&replace=(0 | 1)&retrieve=(full | corefs | sentences)`
+
+12. Check logs
+    `server_name:5000/_logs`
+
+13. Check stats
+    `server_name:5000/_stats`
