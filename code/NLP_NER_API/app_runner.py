@@ -87,7 +87,7 @@ path_to_stats= config['directories']['system']['stats']
 path_to_logs = config['directories']['system']['logs']
 retrieve_args = config['request-args']['CoRef_task']['retrieve']
 directories_system = config['directories']['system']
-
+file_size = config['package-settings']['core-nlp']['thread-settings']['file-size-boundary(in byte)']
 def logger():
     log = logging.getLogger()
     log.setLevel(level=logging.INFO)
@@ -155,23 +155,14 @@ def get_file_name_except_hash(jsonfilename):
     extract the MEL+NER name from JSON file
 """
 def extract_file(MEL_NER_FILE):
-    count = 0;fstelement = 0; lstelement=0
-    for i in MEL_NER_FILE[::-1]:
-        count += 1
-        if i == '-':
-            fstelement = len(MEL_NER_FILE) - count + 1
-            break
-    
-    count = 0
-    for i in MEL_NER_FILE[::-1]:
-        count += 1
-        if i == '.':
-            lstelement = len(MEL_NER_FILE) - count
-            break
-    return MEL_NER_FILE[fstelement:lstelement]
-    
+    MEL_idx = MEL_NER_FILE.find(MEL_NER_METHODS)
+    for idx in range(MEL_idx,len(MEL_NER_FILE)):
+        if MEL_NER_FILE[idx] == '.' or MEL_NER_FILE[idx] == '-':
+            return MEL_NER_FILE[MEL_idx:idx]
+            
 def getModel(jsonfilename):
-    model = extract_file(jsonfilename) if is_MEL_NER_File(jsonfilename) else jsonfilename.split("--")[2].replace('(','').replace(')','')
+    
+    model = extract_file(jsonfilename) if is_MEL_NER_File(jsonfilename) else find_element_in_bracket(jsonfilename,0) # the first element in the bracket
     return model
 
 def getHash(jsonfilename):
@@ -294,7 +285,9 @@ def is_all_json(model):
 
 def is_special_attribute(filename):
     for attr in allowed_attribute:
-        return attr in filename
+        if attr in filename:
+            return True
+    return False
 
 def isSystem(pathname):
     for d in directories_system.keys():
@@ -342,17 +335,20 @@ class path(Resource):
         for file in list(fileSet):
             full_path_to_file = str(Path(pathname).joinpath(file))
             if is_MEL_NER_File(file):
-                if (method and (len(method.split('|'))==1 and pt_dp_name not in file or len(method.split('|'))>1 and\
-                     method_in_file(method,file)) and get_file_name(file) == str(filename) and str(filename) in file and is_MEL_NER_File(method) and method == getModel(file)) or\
+                if (method and (len(method.split('|'))==1 and pt_dp_name not in file or len(method.split('|'))>1 and method_in_file(method,file)) and\
+                     get_file_name(file) == str(filename) and str(filename) in file and is_MEL_NER_File(method) and method == getModel(file)) or\
                     (get_file_name(file) == str(filename) and method is None and search is None) or\
-                    (search and get_file_name(file) == str(filename) and method is None and str(search) in file ):
+                    (search and get_file_name(file) == str(filename) and method is None and str(search) in file ) or\
+                    (method and len(method.split('|'))==2 and get_file_name(file) == str(filename) and str(filename) in file and method.split('|')[0] == getModel(file) and method.split('|')[1] in file):
+                    # coreference
                     pathToFileDict[file] = full_path_to_file
             # if the file has suffixes
             elif (Path(file).suffix != ""): 
                 if method and (len(method.split('|'))==1 and len(file.split('--')) == 4 and pt_dp_name not in file or len(method.split('|'))>1 and method_in_file(method,file)) and method.split('|')[0] == getModel(file) and (str(filename) == get_file_name(file) or\
                       str(filename) == getHash(file) ) and str(filename) in str(file) or\
                 (method is None and search is None and (str(filename) == get_file_name(file) or str(filename) == getHash(file))) or\
-                (method is None and search and (str(filename) == get_file_name(file) or str(filename) == getHash(file))  and str(search) in file):
+                (method is None and search and (str(filename) == get_file_name(file) or str(filename) == getHash(file))  and str(search) in file) or\
+                (method and len(method.split('|'))==2 and get_file_name(file) == str(filename) and str(filename) in file and method.split('|')[0] == getModel(file) and method.split('|')[1] in file):
                     if (get_file_name_except_hash(file) not in uniqueFileDict.keys()):
                         pathToFileDict[file] = full_path_to_file
                         # set key as the filename without hashes and value as the full directory path to file
@@ -363,8 +359,7 @@ class path(Resource):
                         if latest_file_path == full_path_to_file:
                             pathToFileDict.pop(str(Path(uniqueFileDict[get_file_name_except_hash(file)]).parts[-1]))
                         uniqueFileDict[get_file_name_except_hash(file)] = latest_file_path
-                        pathToFileDict[file] = latest_file_path
-                        
+                        pathToFileDict[file] = latest_file_path         
         return pathToFileDict
 
     def get(self, pathname): 
@@ -485,7 +480,9 @@ class path(Resource):
                                         # if the file is mel_ner file
                                         if "Specific-Metadata" in data.keys():
                                             clean_text = data['Specific-Metadata']['text-analysis']['clean-text']
-                                            cNLP = coreNLP(clean_text)
+                                            # When coreference resolution task is performed on specific metadata,
+                                            # the thread is directly setting to max_thread.
+                                            cNLP = coreNLP(clean_text,file_size)
                                             cNLP = cNLP.formatjson()
                                             outputfilename = f"{filename}-MEL+NER_output-(coref).json"
                                             #normalise the filename
@@ -520,13 +517,14 @@ class path(Resource):
                         return ERROR_AGGR_ALERT
                     #==========================================================================================#
                     for i in list(pathToFileDict.keys()):
-                        if not has_attribute(allowed_attribute,i):
-                            method.append('{}--{}'.format(get_file_name(i),getModel(i)))
+                        if not is_MEL_NER_File(i):
+                            # if the file contains coreference resolution
+                            if 'coref' not in i:
+                                i = i.replace('--NER','').replace(i.split('--')[-1],'')[:-2]
                         else:
-                            i = i.replace('--NER','').replace('.json','')
-                            if not 'coref' in i:
-                                i = i.replace(i.split('--')[-1],'')[:-2]
-                            method.append(i.replace('(','').replace(')',''))
+                            attr = "" if not has_attribute(allowed_attribute,i) else f"--{find_element_in_bracket(i,-1)}"
+                            i = f"{extractMELNERFilename(i)}--{extract_file(i)}{attr}"
+                        method.append(i.replace('(','').replace(')','').replace(".json",""))
                     if isAcceptJSON(): 
                         response = make_response(Json_dump('Models', method))
                         response.headers = config['http-headers']['json-header']
@@ -539,6 +537,7 @@ class path(Resource):
                         size_split_list = partionlist(sizelist,max_elements_in_page) 
                         sentence_list = [contain_sentence(i) for i in list(pathToFileDict.values())]
                         sentence_split_list = partionlist(sentence_list,max_elements_in_page) 
+                       
                         response = make_response(render_template('pathpages.html',
                                                         file = page_split_list[page_no], 
                                                         len = len(page_split_list[page_no]),
@@ -551,6 +550,7 @@ class path(Resource):
                                                         datelist = date_split_list[page_no],
                                                         sizelist = size_split_list[page_no],
                         ))
+                        
                         response.headers = config['http-headers']['html-header']
                     return response
                 #========================================================================================================#
@@ -561,14 +561,9 @@ class path(Resource):
                 pathToFileDict = self.findJsonFile(cpltPathtoJson,fileSet, filename, model, search)
                 # if url name contains coref then go through that file:
                 if 'coref' in Path(pathname).parts:
-                    filename_fragement = "--".join(Path(pathname).parts[len(Path(pathToJson).parts):-1])
-                    for f in fileSet:
-                        f = f.replace(f.split('--')[-2],quote(f.split('--')[-2],safe=''))
-                        if filename_fragement in f:
-                            completejsonfilepath = Path(cpltPathtoJson).joinpath(f)
-                            with open (completejsonfilepath) as jf:
-                                jsonfile = json.load(jf)
-                                return jsonfile
+                    with open (list(pathToFileDict.values())[0]) as jf:
+                        jsonfile = json.load(jf)
+                        return jsonfile
                     return EMPTY_RESULTS
                 try:
                     completejsonfilepath = list(pathToFileDict.values())[0]
@@ -596,11 +591,11 @@ class path(Resource):
                             response.headers = config['http-headers']['json-header']
                             return response
                         elif req[0] == '*' and req[-1] != '*': 
-                            response =  make_response(Json_dict("search: " + str(req),searchKeyWord(content, req[1:],start=1,l={})))
+                            response =  make_response(Json_dict("search: " + str(req),searchKeyWord(content, req[1:],end=1,l={})))
                             response.headers = config['http-headers']['json-header']
                             return response
                         elif req[0] != '*' and req[-1] == '*': 
-                            response =  make_response(Json_dict("search: " + str(req),searchKeyWord(content, req[:-1],end=1,l={})))
+                            response =  make_response(Json_dict("search: " + str(req),searchKeyWord(content, req[:-1],start=1,l={})))
                             response.headers = config['http-headers']['json-header']
                             return response
                         #if the method is summary then can do filtering function or return error=================================#
@@ -661,27 +656,37 @@ class path(Resource):
                                 # if the file is mel_ner file
                                 if not is_MEL_NER_File(str(filename)):
                                     output = jsonfile['NLP-NER'][model]['_output']
+                                    outputfilename = f"{filename}--{model}--(coref).json"
+                                    coref_output = {}
+                                    filesize = fileinfo.size(completejsonfilepath)
                                     for catg, ents in output.items():
-                                        category = catg
                                         for ent in ents:
                                             if 'sentence' in ent.keys():
                                                 entity = ent['entity']
                                                 start_index = ent['start_index']
                                                 sentence = ent['sentence']
-                                                cNLP = coreNLP(sentence)
+                                                cNLP = coreNLP(sentence,filesize)
                                                 cNLP = cNLP.formatjson()
+                                                
                                                 # normalise entity name
-                                                outputfilename = f"{filename}--{model}--{category}--{quote(entity,safe='')}--{start_index}--(coref).json"
                                                 outputfilepath = str(os.path.join(cpltPathtoJson,outputfilename))
-                                                with open(outputfilepath,'w') as f:
-                                                    json.dump(cNLP,f)
-                                                # full retrieve
                                                 if request.args.get('retrieve') == 'full':
-                                                    return cNLP
-                                                # sentence retrieve
+                                                    cNLP = cNLP
+                                                elif request.args.get('retrieve') in ['corefs', 'sentences']:
+                                                    cNLP = cNLP[request.args.get('retrieve')]
                                                 else:
-                                                    return cNLP[request.args.get('retrieve')]
-                                            return ERROR_COREF_NON_EXIST
+                                                    return ERROR_COREF_NON_EXIST
+
+                                                coref_result = {
+                                                    "sentence" : sentence,
+                                                    "results" : cNLP
+                                                }
+                                                coref_output.setdefault("co-reference-resolution-results",[]).append(coref_result)
+
+                                    with open(outputfilepath,'w') as f:
+                                        json.dump(coref_output,f)
+
+                                    return coref_output
                                 return ERROR_COREF_NON_EXIST
                         #===============================================================================#
                             # jump out of the loop

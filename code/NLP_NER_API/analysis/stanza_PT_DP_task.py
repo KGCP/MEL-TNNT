@@ -23,49 +23,35 @@ class stanza_PT_DP_task:
     # if flag = 0 indicates that the length of sentence is 1
     def pt_dp(self,sentences,flag):
         doc = self.create_pipeline(sentences)
+        # when there are multiple sentences like articles
         if flag == 1:
             pos_tag = [[] for _ in range(len(doc.sentences))]
             dependency_parser = [[] for _ in range(len(doc.sentences))]
-            for i, sentence in enumerate(doc.sentences):
-                for word in sentence.words:
-                    if not self.is_stop(word.text):
-                        pos_tag[i].append({
-                            word.text: {
-                                "lemma":word.lemma, 
-                                "pos":word.upos, 
-                                "tag":word.xpos, 
-                                "alpha":self.is_alpha(word.text),
-                                "starts" : int(word.misc.split("|")[0].split("=")[-1]),
-                                "ends" : int(word.misc.split("|")[1].split("=")[-1]),
-                            }
-                        })
-                        dependency_parser[i].append({word.text : {"dep" : word.deprel}})
-            if len(pos_tag) == 1:
-                pos_tag = pos_tag[0]
-                dependency_parser = dependency_parser[0]
-            return pos_tag,dependency_parser
+        # there is only one sentence
         else:
             pos_tag = []
             dependency_parser = []
-            for i, sentence in enumerate(doc.sentences):
-                for word in sentence.words:
-                    if not self.is_stop(word.text):
-                        pos_tag.append({
-                            word.text: {
-                                "lemma":word.lemma, 
-                                "pos":word.upos, 
-                                "tag":word.xpos, 
-                                "alpha":self.is_alpha(word.text),
-                                "starts" : int(word.start_char),
-                                # or int(word.misc.split("|")[0].split("=")[-1])
-                                "ends" : word.end_char,
-                                # or int(word.misc.split("|")[1].split("=")[-1])
-                            }
-                        })
-                        dependency_parser.append({word.text : {"dep" : word.deprel}})
-            if len(pos_tag) == 1:
-                pos_tag = pos_tag[0]
-                dependency_parser = dependency_parser[0]
-            return pos_tag,dependency_parser
+        for i, sentence in enumerate(doc.sentences):
+            for word in sentence.words:
+                if not self.is_stop(word.text):
+                    # print(word)
+                    # print(type(word.text))
+                    pos_tag.append({
+                        word.text: {
+                            "lemma":word.lemma, 
+                            "pos":word.upos, 
+                            "tag":word.xpos, 
+                            "alpha":self.is_alpha(word.text),
+                            "starts" : int(word.start_char),
+                            # or int(word.misc.split("|")[0].split("=")[-1])
+                            "ends" : int(word.end_char),
+                            # or int(word.misc.split("|")[1].split("=")[-1])
+                        }
+                    })
+                    dependency_parser.append({word.text : {"dep" : word.deprel}})
+        if len(pos_tag) == 1:
+            pos_tag = pos_tag[0]
+            dependency_parser = dependency_parser[0]
+        return pos_tag,dependency_parser
 
 PT_DP_tasks_stanza = stanza_PT_DP_task()

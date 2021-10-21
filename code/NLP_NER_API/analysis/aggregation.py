@@ -45,6 +45,17 @@ Unified format to summary file
     "count": 4
 }
 """
+def move_list_to_dict(lst_of_attr):
+    count_dict = {}
+    for attr in lst_of_attr:
+        if attr['count'] not in count_dict.keys():
+            count_dict.setdefault(attr['count'],[]).append(attr['model'])
+        else:
+            # to prevent duplicate word
+            if  attr['model'] not in count_dict[attr['count']]:
+                count_dict[attr['count']].append(attr['model'])
+    return count_dict
+
 def normalise_list(lst_of_attr):
     # at first remove the last total set
     lst_of_attr = lst_of_attr[:-1]
@@ -56,75 +67,83 @@ def normalise_list(lst_of_attr):
             return lst_of_attr
     return normalise_result
 
-def maximum(lst_of_attr):
-    count = 0
-    maximum_result = {}
-    for ele in lst_of_attr:
-        if count < ele['count']:
-            count = ele['count']
-            maximum_result = {
-                "model": ele['model'],
-                "value": count
-            }
-    return maximum_result
+def maximum(lst_of_attr,count_dict):
+    maximum_value = [
+        {
+            "model": ele,
+            "value": max(count_dict,key=int),
+        } for ele in count_dict[max(count_dict,key=int)]
+    ]
+    maximum_value.append({
+        "total": len(count_dict[max(count_dict,key=int)])
+    })
+    return  maximum_value
 
-def minimum(lst_of_attr):
-    count = float('inf')
-    minimum_result = {}
-    for ele in lst_of_attr:
-        if count > ele['count']:
-            count = ele['count']
-            minimum_result = {
-                "Model": ele['model'],
-                "Value": count
-            }
-    return minimum_result
+def minimum(lst_of_attr,count_dict):
+    minimum_value = [
+        {
+            "model": ele,
+            "value": min(count_dict,key=int),
+        } for ele in count_dict[min(count_dict,key=int)]
+    ]
+    minimum_value.append({
+        "total": 
+            len(count_dict[min(count_dict,key=int)])
+    })
+    return  minimum_value
 
-def frequencies(lst_of_attr):
-    return {"Frequencies" : [ele['count'] for ele in lst_of_attr]}
+def frequencies(lst_of_attr,count_dict):
+    return [ele['count'] for ele in lst_of_attr]
 
-def mean(lst_of_attr):
-    avg = sum(frequencies(lst_of_attr)['Frequencies'])/len(lst_of_attr)
-    return {"Mean" : avg}
+def mean(lst_of_attr,count_dict):
+    avg = sum(frequencies(lst_of_attr,count_dict))/len(lst_of_attr)
+    return avg
 
-def median(lst_of_attr):
-    median = statistics.median(frequencies(lst_of_attr)['Frequencies'])
-    return {"Median" : median}
+def median(lst_of_attr,count_dict):
+    median = int(statistics.median(frequencies(lst_of_attr,count_dict)))
+    return median
 
-def mode(lst_of_attr):
-    mode = statistics.mode(frequencies(lst_of_attr)['Frequencies'])
-    return {"Mode": mode}
 
-def multimode(lst_of_attr):
-    multi_mode = statistics.multimode(frequencies(lst_of_attr)['Frequencies'])
-    return {"Multi-mode": multi_mode}
+def mode(lst_of_attr,count_dict):
+    mode_value = int(statistics.mode(frequencies(lst_of_attr,count_dict)))
+    mode_result = [{
+                "model": ele,
+                "value": int(mode_value),
+            } for ele in count_dict[int(mode_value)]]
+    mode_result.append({
+            "total": len(count_dict[int(mode_value)])
+    })
+    return  mode_result
 
-def std(lst_of_attr):
-    lst = frequencies(lst_of_attr)['Frequencies']
+def multimode(lst_of_attr,count_dict):
+    multi_mode = statistics.multimode(frequencies(lst_of_attr,count_dict))
+    return multi_mode
+
+def std(lst_of_attr,count_dict):
+    lst = frequencies(lst_of_attr,count_dict)
     if len(lst) > 2:
-        standard_deviation = statistics.stdev(frequencies(lst_of_attr)['Frequencies'])
+        standard_deviation = statistics.stdev(frequencies(lst_of_attr,count_dict))
     else: return None
-    return {"Standard Deviation" : standard_deviation}
+    return standard_deviation
 
-def var(lst_of_attr):
-    lst = frequencies(lst_of_attr)['Frequencies']
+def var(lst_of_attr,count_dict):
+    lst = frequencies(lst_of_attr,count_dict)
     if len(lst) > 2:
         variance = statistics.variance(lst)
     else: return None
-    return {"Variance" : variance}
+    return variance
 
-def quartile(lst_of_attr):
-    lst = frequencies(lst_of_attr)['Frequencies']
+def quartile(lst_of_attr,count_dict):
+    lst = frequencies(lst_of_attr,count_dict)
     if len(lst) > 4:
         quartiles = list(map(round, statistics.quantiles(lst,n=4)))
     else: return None
-    return {"Quartile" : quartiles}
+    return quartiles
 
-def geomean(lst_of_attr):
-    lst = frequencies(lst)['Frequencies']
+def geomean(lst_of_attr,count_dict):
+    lst = frequencies(lst)
     geo_mean = round(statistics.geometric_mean(lst), 1)
-    return {"Geometric Mean" : geo_mean}
-
+    return geo_mean
 
 # group
 # l is a dictionary which is like ------------------------------------------------------------------------# 
@@ -165,17 +184,34 @@ def aggregate_jsonfile_summary(l):
         return file_summary
 
     def summary_stats(_json):
+        count_list = []
+        count_dict = None
         _json_ = deepcopy(_json)
+        temp = None
         cate_name = 'NLP-NER-Aggregated-Summary' if isAggregatedNER_JSONobj(_json) else 'NLP-NER-Aggregated-Summary-By-Category'
         for doc,values in getAggregatedNER_JSONobj(_json).items():
             for entity,models in values.items():
                 _json_[cate_name][doc][entity] = {}
+                # append list onto the count_list
+                count_list += normalise_list(models)
                 for func in allowed_aggregation_function:
                     # use different function
                     key = func
                     try:
-                        value = eval(key)(normalise_list(models))
+                        temp = move_list_to_dict(normalise_list(models))
+                        value = eval(key)(normalise_list(models),temp)
                         _json_[cate_name][doc][entity][key] = value
+                    except:
+                        print(f"Your function request {key} does not exist")
+
+        if cate_name == 'NLP-NER-Aggregated-Summary-By-Category':
+            for doc,values in getAggregatedNER_JSONobj(_json).items():
+                _json_[cate_name][doc].setdefault("General-Stats",{})
+                for func in allowed_aggregation_function:
+                    key = func
+                    try:  
+                        value = eval(key)(count_list,move_list_to_dict(count_list))
+                        _json_[cate_name][doc]["General-Stats"][key] = value
                     except:
                         print(f"Your function request {key} does not exist")
         return _json_

@@ -68,9 +68,8 @@ def checkIfAllowed(base,allowedpath):
     return False
 
 def has_attribute(allowed_attribute,a):
+    # print("PT_DP" in '66459_0.pdf-layout.txt-MEL+NER_output-(PT_DP_stanza).json')
     for attr in allowed_attribute:
         if (attr in a):
             return True
     return False
-
-    

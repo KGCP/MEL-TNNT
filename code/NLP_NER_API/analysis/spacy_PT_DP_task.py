@@ -6,7 +6,7 @@ import json
 import re
 def excluded(token):
     # Getter function to determine the value of token._.is_excluded
-    return token.pos_ in ['SPACE'] or token.is_stop or token.dep_ in ['punct']
+    return token.pos_ in ['SPACE'] or token.dep_ in ['punct']
 
 Token.set_extension('is_excluded', getter=excluded)
 
@@ -25,8 +25,8 @@ class spacy_PT_DP_task:
         # tokenize the sentence
         nlp = spacy.load("en_core_web_sm")
         if flag == 1:
-            # add sentencizer to the last pipeline of spacy
-            nlp.add_pipe("sentencizer", last=True)
+             # Insert before the parser
+            nlp.add_pipe("sentencizer",before = "parser")
             doc = nlp(text)
             for sent in doc.sents:
                 self.sentence.append(sent)
@@ -47,10 +47,7 @@ class spacy_PT_DP_task:
                         dependency_parser[sent].append({
                             token.text :{"dep" : token.dep_,
                         }})
-            if len(pos_tag) == 1:
-                pos_tag = pos_tag[0]
-                dependency_parser = dependency_parser[0]
-            return pos_tag, dependency_parser
+
         else:
             doc = nlp(text)
             pos_tag=[]; dependency_parser = []
@@ -68,9 +65,10 @@ class spacy_PT_DP_task:
                     dependency_parser.append({
                         token.text :{"dep" : token.dep_,
                     }})
-            if len(pos_tag) == 1:
-                pos_tag = pos_tag[0]
-                dependency_parser = dependency_parser[0]
-            return pos_tag, dependency_parser
+                    
+        if len(pos_tag) == 1:
+            pos_tag = pos_tag[0]
+            dependency_parser = dependency_parser[0]
+        return pos_tag, dependency_parser
+            
 PT_DP_tasks_spacy = spacy_PT_DP_task()
-

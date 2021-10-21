@@ -94,22 +94,21 @@ def findEntityValueWithKey(obj,entityKey,entityValue,key):
     return Json_dict(key,findEntityValue(obj,entityKey,entityValue))
 
 """
-if start is not none, then it gives string starts with particular substring
-if end is not none, then it gives string ends with particular substring
+We need the capability to search for the NER entity results, including substrings (startsWith, endsWith , substring) and exactMatch, in the following way:
+/DoF/.../spacy_md_model/_output/PERSON/Car*: all entities that start with Car
+/DoF/.../spacy_md_model/_output/PERSON/Carter: exact match for entity Carter
+/DoF/.../spacy_md_model/_output/PERSON/*ter: all entities that finish with ter
+/DoF/.../spacy_md_model/_output/PERSON/*arte*: all entities that have the substring arte
 """
 def searchKeyWord(sections, keyword, start=None, end=None, l = {}):
     # split every word in the list with the space
     def checkIfcontainSubword(keyword,targetword,start,end):
-        split_word = str(targetword).split(" ")
-        for word in split_word:
-            print(word)
-            if (start and end is None) and str(word).startswith(str(keyword)):      
-                print(word)
-                return True
-            elif (start is None and end) and str(word).endswith(str(keyword)):
-                return True
-            elif (start and end) and str(keyword) in str(word):
-                return True
+        if (start and end is None) and str(targetword).startswith(str(keyword)): 
+            return True
+        elif (start is None and end) and str(targetword).endswith(str(keyword)):
+            return True
+        elif (start and end) and str(keyword) in str(targetword):
+            return True
         return False
     
     # these breaks are used to avoid duplicates
@@ -118,11 +117,12 @@ def searchKeyWord(sections, keyword, start=None, end=None, l = {}):
             searchKeyWord(section,keyword,start, end, l)
     elif isinstance(sections,dict):
         for key,entities in sections.items():
-            for ent in entities:
-                if checkIfcontainSubword(keyword,ent,start,end):
-                    print(ent)
-                    l.setdefault(key,[]).append(ent)
-            # break
+            if isinstance(entities,list): 
+                for ent in entities:
+                    if 'entity' in ent:
+                        if checkIfcontainSubword(keyword,ent['entity'],start,end):
+                            l.setdefault(key,[]).append(ent)
+                        break
                 
     return l
 

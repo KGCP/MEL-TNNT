@@ -169,12 +169,18 @@
     "package-settings": {
         "core-nlp": {
             "home-directory": "/data/NLP-NER-Tools/stanford-corenlp-4.2.2",
-            "timeout" : 15000000,
+            "timeout" : 150000000,
+            "maxcharlength" : 2147483646,
             "memory-size": "64G",
-            "suppress_output" : 1
+            "suppress_output" : 1,
+            "thread-settings" : {
+                "file-size-boundary(in byte)" : 100000,
+                "regular-thread" : 5,
+                "large-thread" : 8
+            }
         },
         "stanza": {
-            "resources-directory": "/data/NLP-NER-Tools/stanza_resources/en"
+            "resources-directory": "/data/NLP-NER-Tools/stanza_resources"
         }
     },
 
@@ -199,7 +205,6 @@
         "multimode",
         "std",
         "var",
-        "geomean",
         "quartile"
     ],
 
