@@ -387,7 +387,7 @@ class path(Resource):
                 # dealing with the helping argument
                 if help_request in request.args:
                     response = make_response(help(0))
-                    response.headers = config['json-header']
+                    response.headers = config["http-headers"]['json-header']
                     return response
 
                 fileSet = set()
