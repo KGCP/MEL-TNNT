@@ -247,7 +247,7 @@
             "flair_pooled_model": "PER",
             "nltk_model": "PERSON",
             "polyglot_model": "PER",
-            "google_bert_model": "PER"
+            "bert_model": "PER"
         },
         "tnnt:NORP": {
             "spacy_lg_model": "NORP",
@@ -266,7 +266,7 @@
             "flair_pooled_model": "MISC",
             "flair_fast_ontonotes_model": "NORP",
             "flair_ontonotes_model": "NORP",
-            "google_bert_model": "MISC"
+            "bert_model": "MISC"
         },
         "tnnt:FAC": {
             "spacy_lg_model": "FAC",
@@ -301,7 +301,7 @@
             "flair_pooled_model": "ORG",
             "nltk_model": "ORGANIZATION",
             "polyglot_model": "ORG",
-            "google_bert_model": "ORGANIZATION"
+            "bert_model": "ORGANIZATION"
         },
         "tnnt:GPE": {
             "spacy_lg_model": "GPE",
@@ -336,7 +336,7 @@
             "flair_pooled_model": "LOC",
             "nltk_model": "LOCATION",
             "polyglot_model": "LOC",
-            "google_bert_model": "LOCATION"
+            "bert_model": "LOCATION"
         },
         "tnnt:Product": {
             "spacy_lg_model": "PRODUCT",
@@ -355,7 +355,7 @@
             "flair_pooled_model": "MISC",
             "flair_fast_ontonotes_model": "PRODUCT",
             "flair_ontonotes_model": "PRODUCT",
-            "google_bert_model": "MISC"
+            "bert_model": "MISC"
         },
         "tnnt:Event": {
             "spacy_lg_model": "EVENT",
@@ -374,7 +374,7 @@
             "flair_pooled_model": "MISC",
             "flair_fast_ontonotes_model": "EVENT",
             "flair_ontonotes_model": "EVENT",
-            "google_bert_model": "MISC"
+            "bert_model": "MISC"
         },
         "tnnt:WorkOfArt": {
             "spacy_lg_model": "WORK_OF_ART",
@@ -406,7 +406,7 @@
             "flair_pooled_model": "MISC",
             "flair_fast_ontonotes_model": "LAW",
             "flair_ontonotes_model": "LAW",
-            "google_bert_model": "MISC"
+            "bert_model": "MISC"
         },
         "tnnt:Language": {
             "spacy_lg_model": "LANGUAGE",
@@ -425,7 +425,7 @@
             "flair_pooled_model": "MISC",
             "flair_fast_ontonotes_model": "LANGUAGE",
             "flair_ontonotes_model": "LANGUAGE",
-            "google_bert_model": "MISC"
+            "bert_model": "MISC"
         },
         "tnnt:Date": {
             "spacy_lg_model": "DATE",
