@@ -38,7 +38,7 @@ Implements a set of classes and functions to extract metadata (and textual conte
 ![Processing Model](https://github.com/KGCP/MEL-TNNT/blob/master/docs/MEL/MEL-ProcessingModel.png)
 
 ## Overview Demo
-- [ISWC 2021 - Posters & Demos Track: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
+- ISWC 2021 - Posters & Demos Track | KGC Tutorial 2022: [demo video](https://www.youtube.com/watch?v=hWMZ1O-PSjE)
 
 
 ---
@@ -101,7 +101,7 @@ From the implemented models, the toolkit can recognised entities from the follow
 ![Category classification from the models' perspective](https://github.com/KGCP/MEL-TNNT/blob/master/docs/TNNT/TNNT-CategoryClassification-ModelsPerspective.png)
 
 ## Overview Demo
-- [K-CAP 2021: demo videos](https://github.com/KGCP/MEL-TNNT/blob/master/demo/)
+- K-CAP 2021 | KGC Tutorial 2022: [demo video](https://www.youtube.com/watch?v=D4DEULn8EtU)
 
 
 ---
