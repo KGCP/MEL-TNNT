@@ -7,10 +7,12 @@
 #    2020-06-03,25: internal release of version 0.1.0.
 #    2020-08-26: *load_models* separated from *main* (process).
 #    2020-10-26: Sampling mechanism.
+#    2023-03-13: MEL import as "global".
 '''
 
 
 # ==================================================================================================
+import MEL
 import json
 import NLP_NER.EntityRecognition as _NLP_NER
 
@@ -21,7 +23,6 @@ def load_models(models=[_NLP_NER.NERUtils.stanza_name]): # default: stanza
 
 
 def NER_main(models=[_NLP_NER.NERUtils.stanford_class3_name], docs={}):
-    import MEL # prevent circular referencing from MEL
     ''' --------------------------------------- NER ---------------------------------------
     _models = [
         _NLP_NER.NERUtils.stanford_class3_name,      _NLP_NER.NERUtils.stanford_class4_name, _NLP_NER.NERUtils.stanford_class7_name,

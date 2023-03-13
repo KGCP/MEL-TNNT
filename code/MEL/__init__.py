@@ -18,6 +18,8 @@
 #    2020-11-23~25: reorganising some code and improving interface.
 #    2021-01-04: support for multiple configuration files.
 #    2021-02-03: NHMRC_pruneMetadata() @ Test/CouchDB
+#    2022-03-07: integration with the FutureSOILS Data Validation Engine (DVE).
+#    2023-03-13: TNNT code improvements and bug correction.
 
 # Specific dependencies:
 http://www.decalage.info/python/oletools
@@ -134,7 +136,7 @@ def init(cnfg_fn=_config_filename): # general initialization function
 class Utils:
     global _config_filename
     CONFIG_JSON_DIR_ = os.path.dirname(os.path.realpath(__file__)) + "/"
-        # "E:\\_Eclipse\\Workspace\\anu-cecs\\AGRIF_Project\\KG-Tools\\MEL\\" if (platform.system() == 'Windows') else\
+        # "E:/Workspace/KG-Tools/MEL/" if (platform.system() == 'Windows') else\
         # "/data/mapping-services/MEL/"
     CONFIG_JSON_FILE = _config_filename + ".json" # default configuration file from the *builtins.MEL_config_filename* variable (if exists).
     if not(os.path.exists(CONFIG_JSON_FILE)):
@@ -239,6 +241,11 @@ class Utils:
     def printEndTimeStamp(dt_end, delta):
         Utils._log.info(f"\n\nEnd time: [{dt_end}]")
         Utils._log.info(f"Execution time: {delta} seconds.")
+
+    # Get a boolean value from a dictionary[key] element.  Checks if the [key] exists; if not, returns False.
+    @staticmethod
+    def getsBoolFromDictKey(d: dict, k: str) -> bool:
+        return (bool(d[k]) if (k in d) else False)
 
     @staticmethod
     def addItemInCountingList(_list, key):
@@ -370,20 +377,20 @@ class Dataset: # Local Dataset Configuration
         return ( Dataset.NERenabled() and bool(Dataset._ner["Store-Output-On-CouchDB"]) )
 
     @staticmethod
-    def isGenerateOutputFileEnabled():
-        return (bool(Dataset._f["Generate-Output-Files"]))
+    def isGenerateOutputFileEnabled() -> bool:
+        return Utils.getsBoolFromDictKey(Dataset._f, "Generate-Output-Files")
 
     @staticmethod
-    def hasAssociatedMetadata():
-        return (bool(Dataset._f["Has-Associated-Metadata"]))
+    def hasAssociatedMetadata() -> bool:
+        return Utils.getsBoolFromDictKey(Dataset._f, "Has-Associated-Metadata")
 
     @staticmethod
-    def isViewFilePrintEnabled():
-        return (bool(Dataset._f["View-File-Print"]))
+    def isViewFilePrintEnabled() -> bool:
+        return Utils.getsBoolFromDictKey(Dataset._f, "View-File-Print")
 
     @staticmethod
-    def pdftotext_preserveLayout():
-        return (bool(Dataset._["PDF.Text-Extraction-Preserve-Layout"]))
+    def pdftotext_preserveLayout() -> bool:
+        return Utils.getsBoolFromDictKey(Dataset._f, "PDF.Text-Extraction-Preserve-Layout")
     
     @staticmethod
     def writeOutputFile(_filename, sufix, output):
@@ -406,7 +413,7 @@ class Dataset: # Local Dataset Configuration
         if (Dataset.isGenerateOutputFileEnabled()):
             output, NER_result = {}, {}
             if (isinstance(obj, File)):
-                output = obj.extractMetadata() # if (COMPLETE): it's already processed inside the metadata extraction
+                output = obj.extractMetadata()  # if (COMPLETE): it's already processed inside the metadata extraction
                 if (Dataset.NER_Complete()):
                     Dataset.generateMergedOutput(_filename, output)
                     return
@@ -2016,6 +2023,7 @@ We ignore this type of failure... and, unfortunately, we won't be able to retrie
 
 
     def extract_associated_NHMRC_info(self):
+        global NHMRC_Grants
         NHMRC_data_file = Utils._config["Associated-Metadata"]["NHMRC-Settings"]
         # Ignore if it's the file that has the associated metadata:
         if (self.path !=
@@ -2043,6 +2051,7 @@ We ignore this type of failure... and, unfortunately, we won't be able to retrie
 
 
     def extract_associated_DoEE_Species_CAsAndRPs_info(self):
+        global DoEE_Species
         DoEE_Species_data_file = Utils._config["Associated-Metadata"]["DoEE_Species_CAsAndRPs-Settings"]
         # Ignore if it's the file that has the associated metadata:
         if (self.path !=
@@ -2058,6 +2067,20 @@ We ignore this type of failure... and, unfortunately, we won't be able to retrie
             Utils.output(json.dumps(_metadata, indent=4), _print=False)
             return _metadata
         return {}
+
+
+    def extract_associated_FutureSOILS_info(self):
+        global FutureSOILS
+        __fnc__ = sys._getframe().f_code.co_name + '#' + str(sys._getframe().f_code.co_firstlineno) # function + number of 1st line the source code
+        if (__fnc__ not in Utils.IMPORTED_PACKAGES): # not in the array?
+            #if ( (__name__ == "__main__") or ((__name__ == "MEL") and (__package__ == 'MEL')) ):
+            import MEL.FutureSOILS_PPP_Engine as FutureSOILS
+            #else:
+            #    from . import DoEE_Species
+            Utils.IMPORTED_PACKAGES.append(__fnc__) # marked as already imported
+        _metadata = FutureSOILS.ProcessingEngine(self.dirname, self.name) # current processing file (directory folder and filename)
+        Utils.output(json.dumps(_metadata, indent=4), _print=True)
+        return _metadata
 
 
     def extract_associated___JSON___info(self):
@@ -2138,7 +2161,7 @@ class Directory:
                 file["CREATED-TIME"] = f"{dc.strftime('%H%M%S')}"
                 Directory.structure[f"{entry.name}"] = file
         if not (Directory.structure):
-            Utils.output(f"Path not found or unable to scanned!\npath={path}", _error=True, _print=True)
+            Utils.output(f"Path not found, empty, or unable to scanned!\npath={path}", _error=True, _print=True)
             return
         Utils.output(json.dumps(Directory.structure, indent=4), _print=False)
 
@@ -2274,15 +2297,16 @@ class Directory:
 class NER:
     config = Utils._config["NLP-NER"]
     db_px  = config["Database-Prefix"]
-    models = []
-    processing_block = []
-    loaded = False
-    _last_doc = {}
-    _last_hash_doc = ""
-    _last_output_filename_template = ""
-    _last_result = {}
-    _last_result_summary = {}
-    _last_output = {}
+    models: list = []
+    processing_block: list = []
+    loaded: bool = False
+    _processed_docs: list = []
+    _last_doc: dict = {}
+    _last_hash_doc: str = ""
+    _last_output_filename_template:str = ""
+    _last_result: dict = {}
+    _last_result_summary:dict = {}
+    _last_output: dict = {}
 
 
     @staticmethod
@@ -2297,56 +2321,28 @@ class NER:
                 block_names.append(block["Name"])
                 NER.processing_block.extend(block["$"])
 
-        if (bool(NER.config["Models"]["spacy_sm"]) and ("spacy_sm" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.spacy_sm_name)
-        if (bool(NER.config["Models"]["spacy_md"]) and ("spacy_md" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.spacy_md_name)
-        if (bool(NER.config["Models"]["spacy_lg"]) and ("spacy_lg" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.spacy_lg_name)
-        
-        if (bool(NER.config["Models"]["stanford_class3"]) and ("stanford_class3" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.stanford_class3_name)
-        if (bool(NER.config["Models"]["stanford_class4"]) and ("stanford_class4" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.stanford_class4_name)
-        if (bool(NER.config["Models"]["stanford_class7"]) and ("stanford_class7" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.stanford_class7_name)
-        
-        if (bool(NER.config["Models"]["stanza"]) and ("stanza" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.stanza_name)
-        
-        if (bool(NER.config["Models"]["nltk"]) and ("nltk" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.nltk_name)
-        
-        if (bool(NER.config["Models"]["bert"]) and ("bert" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.bert_name)
-
-        if (bool(NER.config["Models"]["flair"])                and ("flair" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.flair_name)
-        if (bool(NER.config["Models"]["flair_ontonotes"])      and ("flair_ontonotes" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.flair_ontonotes_name)
-        if (bool(NER.config["Models"]["flair_fast"])           and ("flair_fast" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.flair_fast_name)
-        if (bool(NER.config["Models"]["flair_fast_ontonotes"]) and ("flair_fast_ontonotes" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.flair_fast_ontonotes_name)
-        if (bool(NER.config["Models"]["flair_pooled"])         and ("flair_pooled" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.flair_pooled_name)
-
-        if (bool(NER.config["Models"]["deeppavlov_onto"])           and ("deeppavlov_onto" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.deeppavlov_onto_name)
-        if (bool(NER.config["Models"]["deeppavlov_onto_bert"])      and ("deeppavlov_onto_bert" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.deeppavlov_onto_bert_name)
-        if (bool(NER.config["Models"]["deeppavlov_conll2003"])      and ("deeppavlov_conll2003" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.deeppavlov_conll2003_name)
-        if (bool(NER.config["Models"]["deeppavlov_conll2003_bert"]) and ("deeppavlov_conll2003_bert" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.deeppavlov_conll2003_bert_name)
-
-        if (bool(NER.config["Models"]["allennlp"])             and ("allennlp" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.allennlp_ner_name)
-        if (bool(NER.config["Models"]["allennlp_finegrained"]) and ("allennlp_finegrained" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.allennlp_finegrained_ner_name)
-
-        if (bool(NER.config["Models"]["polyglot"]) and ("polyglot" in NER.processing_block)):
-            NER.models.append(_NLP_NER.NERUtils.polyglot_name)
+        isModelEnabled = lambda m : (bool(NER.config["Models"][m]) and (m in NER.processing_block))
+        if isModelEnabled("spacy_sm"): NER.models.append(_NLP_NER.NERUtils.spacy_sm_name)
+        if isModelEnabled("spacy_md"): NER.models.append(_NLP_NER.NERUtils.spacy_md_name)
+        if isModelEnabled("spacy_lg"): NER.models.append(_NLP_NER.NERUtils.spacy_lg_name)
+        if isModelEnabled("stanford_class3"): NER.models.append(_NLP_NER.NERUtils.stanford_class3_name)
+        if isModelEnabled("stanford_class4"): NER.models.append(_NLP_NER.NERUtils.stanford_class4_name)
+        if isModelEnabled("stanford_class7"): NER.models.append(_NLP_NER.NERUtils.stanford_class7_name)
+        if isModelEnabled("stanza"): NER.models.append(_NLP_NER.NERUtils.stanza_name)
+        if isModelEnabled("nltk"  ): NER.models.append(_NLP_NER.NERUtils.nltk_name)
+        if isModelEnabled("bert"  ): NER.models.append(_NLP_NER.NERUtils.bert_name)
+        if isModelEnabled("flair" ): NER.models.append(_NLP_NER.NERUtils.flair_name)
+        if isModelEnabled("flair_ontonotes"     ): NER.models.append(_NLP_NER.NERUtils.flair_ontonotes_name)
+        if isModelEnabled("flair_fast"          ): NER.models.append(_NLP_NER.NERUtils.flair_fast_name)
+        if isModelEnabled("flair_fast_ontonotes"): NER.models.append(_NLP_NER.NERUtils.flair_fast_ontonotes_name)
+        if isModelEnabled("flair_pooled"        ): NER.models.append(_NLP_NER.NERUtils.flair_pooled_name)
+        if isModelEnabled("deeppavlov_onto"     ): NER.models.append(_NLP_NER.NERUtils.deeppavlov_onto_name)
+        if isModelEnabled("deeppavlov_onto_bert"): NER.models.append(_NLP_NER.NERUtils.deeppavlov_onto_bert_name)
+        if isModelEnabled("deeppavlov_conll2003"): NER.models.append(_NLP_NER.NERUtils.deeppavlov_conll2003_name)
+        if isModelEnabled("deeppavlov_conll2003_bert"): NER.models.append(_NLP_NER.NERUtils.deeppavlov_conll2003_bert_name)
+        if isModelEnabled("allennlp"): NER.models.append(_NLP_NER.NERUtils.allennlp_ner_name)
+        if isModelEnabled("allennlp_finegrained"): NER.models.append(_NLP_NER.NERUtils.allennlp_finegrained_ner_name)
+        if isModelEnabled("polyglot"): NER.models.append(_NLP_NER.NERUtils.polyglot_name)
 
         Utils.output(f"NER.processing_blocks={block_names}\nNER.models={NER.models}", _print=True)
         return NER.models
@@ -2362,13 +2358,21 @@ class NER:
 
     @staticmethod
     def process(mdDocsStructure={}, models2process=None): # returns the structure: o["NLP-NER"]
+        # if the document has been already processed -> skip it!
         NER._last_result = { }
+        if ("NLP-NER"         in mdDocsStructure):  NER._last_result["NLP-NER"]         = mdDocsStructure["NLP-NER"]  # current results
+        if ("NLP-NER-Summary" in mdDocsStructure):  NER._last_result["NLP-NER-Summary"] = mdDocsStructure["NLP-NER-Summary"]  # current results
+        _doc: str = mdDocsStructure["General-Metadata"]["FILENAME"]
+        if (_doc in NER._processed_docs):
+            Utils.output(f"\n[TNNT WARNING]: The document [{_doc}] was previously processed.  Skipping it...\n", _print=True)
+            return NER._last_result
         models2process = NER.models if (models2process is None) else models2process # If *None* -> use *default* model list
         # *models2process* might be an empty list: [] --> do nothing!
         if ((Dataset.NERenabled()) and (NER.loaded) and (models2process)): # We assume that the models have been loaded:
             Utils.output(f"Processing the following models: {models2process}", _print=False)
             NER._last_result["NLP-NER"] = NLP_NER.NER_main(models2process, mdDocsStructure)
             NER._last_result["NLP-NER-Summary"] = NER.postProcessing()
+            NER._processed_docs.append(_doc)  # add the document in the list of "already processed" docs.
         return NER._last_result
 
 
@@ -2674,7 +2678,7 @@ class VirtuosoUS: # Virtuoso Universal Server
     #         'user': "<USR>",
     #         'password': "<PWD>"
     #     }
-    #     jarPath = "E:\\_Maven\\repository\\org\\apache\\jena\\jena-rdfconnection\\3.13.1\\jena-rdfconnection-3.13.1.jar"
+    #     jarPath = "E:/_Maven/repository/org/apache/jena/jena-rdfconnection/3.13.1/jena-rdfconnection-3.13.1.jar"
     #     conn = jaydebeapi.connect(jclass, conn_string, conn_prop, jarPath)
     #     cursor = conn.cursor()
     #     query = """
@@ -2738,7 +2742,7 @@ class Support():
 
     @staticmethod
     def NHMRC_EmptyFolders():
-        FILE_PATH = "E:\\_temp\\DepFin-Project\\NHMRC\\NHMRC_Files.txt"
+        FILE_PATH = "E:/_temp/DepFin-Project/NHMRC/NHMRC_Files.txt"
         f = open(FILE_PATH, 'r')
         folder, size, l, n = "", "", 1, 1
         Utils._log.info("List of empty folders (no files found in them):\n")
@@ -2777,10 +2781,10 @@ class Test():
         _d = Dataset._f["Test-Folder"] + _useCase 
         Directory.scanAndBuildStructure(_d)
         _f = File(path=(_d + Utils.FILE_PATH_SEPARATOR + _input_file), useCase=_useCase, defaultDirAttributes=Directory.structure[_input_file], JSONmetadata={})
-        _m = _f.extractMetadata()
+        _m = _f.extractMetadata()  # if (Dataset["NLP-NER"]["Output-Handling"] == "COMPLETE") is set in the configuration file --> NER.process()
         if (Dataset.isViewFilePrintEnabled()):
             _f.print()
-        Dataset.generateOutputFile(_input_file, _m, processNER=Dataset.NER_Complete())
+        Dataset.generateOutputFile(_input_file, _m, processNER=Dataset.NER_Complete())  # It might run NER.process() twice!
         return _f
 
     @staticmethod

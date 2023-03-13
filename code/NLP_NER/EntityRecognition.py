@@ -1,3 +1,4 @@
+import MEL
 import platform # Checking the O.S. | 'Windows' specific variables.
 import json
 import re
@@ -113,6 +114,20 @@ class NERUtils:
         # gc.get_count() - to get the number of objects. can check before and after gc.collect() to see how much is cleaned
         collected = gc.collect()
 
+    @staticmethod
+    def run_model_start_event(model: str) -> datetime:
+        MEL.Utils._log.info(f"\n==> Running: *{model}*")
+        dt_begin: datetime = datetime.datetime.now()
+        MEL.Utils.printStartTimeStamp(dt_begin)
+        return dt_begin
+
+    @staticmethod
+    def run_model_end_event(dt_begin: datetime):
+        dt_end: datetime = datetime.datetime.now()
+        delta = (dt_end - dt_begin).total_seconds()
+        MEL.Utils.printEndTimeStamp(dt_end, delta)
+        MEL.Utils._log.info(f"\n")
+        NERUtils.garbage_collector()
 
 # ==================================================================================================
 class Polyglot:
@@ -979,95 +994,60 @@ class NER:
 
     @staticmethod
     def get_ner_from_models(text, doc, models):
+        def run_model(model):
+            if model == NERUtils.stanford_class7_name          : return StanfordNer.get_class7_entities(text)
+            if model == NERUtils.stanford_class4_name          : return StanfordNer.get_class4_entities(text)
+            if model == NERUtils.stanford_class3_name          : return StanfordNer.get_class3_entities(text)
+            if model == NERUtils.stanza_name                   : return StanzaNer.get_stanza_entities(text)
+            if model == NERUtils.spacy_sm_name                 : return SpacyNer.get_spacy_sm_entities(text)
+            if model == NERUtils.spacy_md_name                 : return SpacyNer.get_spacy_md_entities(text)
+            if model == NERUtils.spacy_lg_name                 : return SpacyNer.get_spacy_lg_entities(text)
+            if model == NERUtils.nltk_name                     : return NLTKNer.get_nltk_entities(text)
+            if model == NERUtils.bert_name                     : return BERTNer.get_bert_entities(text, 0)
+            if model == NERUtils.flair_name                    : return FlairNer.get_flair_entities(text)
+            if model == NERUtils.flair_ontonotes_name          : return FlairNer.get_flair_ontonotes_entities(text)
+            if model == NERUtils.flair_fast_name               : return FlairNer.get_flair_fast_entities(text)
+            if model == NERUtils.flair_fast_ontonotes_name     : return FlairNer.get_flair_ontonotes_fast_entities(text)
+            if model == NERUtils.flair_pooled_name             : return FlairNer.get_flair_pooled_entities(text)
+            if model == NERUtils.deeppavlov_onto_name          : return Deeppavlov.get_deeppavlov_onto_entities(text)
+            if model == NERUtils.deeppavlov_onto_bert_name     : return Deeppavlov.get_deeppavlov_ontobert_entities(text)
+            if model == NERUtils.deeppavlov_conll2003_name     : return Deeppavlov.get_deeppavlov_conll2003_entities(text)
+            if model == NERUtils.deeppavlov_conll2003_bert_name: return Deeppavlov.get_deeppavlov_conll2003_bert_entities(text)
+            if model == NERUtils.allennlp_ner_name             : return AllennlpNer.get_allennlp_ner(text)
+            if model == NERUtils.allennlp_finegrained_ner_name : return AllennlpNer.get_allennlp_fine_grained_ner(text)
+            if model == NERUtils.polyglot_name                 : return Polyglot.get_polyglot_entities(text)
         if len(text) == 0 :
             return doc
-        if NERUtils.stanford_class7_name in models:
-            doc[NERUtils.stanford_class7_name] = StanfordNer.get_class7_entities(text)
-        if NERUtils.stanford_class4_name in models:
-            doc[NERUtils.stanford_class4_name] = StanfordNer.get_class4_entities(text)
-        if NERUtils.stanford_class3_name in models:
-            doc[NERUtils.stanford_class3_name] = StanfordNer.get_class3_entities(text)
-        if NERUtils.stanza_name in models:
-            doc[NERUtils.stanza_name] = StanzaNer.get_stanza_entities(text)
-        if NERUtils.spacy_sm_name in models:
-            doc[NERUtils.spacy_sm_name] = SpacyNer.get_spacy_sm_entities(text)
-        if NERUtils.spacy_md_name in models:
-            doc[NERUtils.spacy_md_name] = SpacyNer.get_spacy_md_entities(text)
-        if NERUtils.spacy_lg_name in models:
-            doc[NERUtils.spacy_lg_name] = SpacyNer.get_spacy_lg_entities(text)
-        if NERUtils.nltk_name in models:
-            doc[NERUtils.nltk_name] = NLTKNer.get_nltk_entities(text)
-        if NERUtils.bert_name in models:
-            doc[NERUtils.bert_name] = BERTNer.get_bert_entities(text, 0)
-        if NERUtils.flair_name in models:
-            doc[NERUtils.flair_name] = FlairNer.get_flair_entities(text)
-        if NERUtils.flair_ontonotes_name in models:
-            doc[NERUtils.flair_ontonotes_name] = FlairNer.get_flair_ontonotes_entities(text)
-        if NERUtils.flair_fast_name in models:
-            doc[NERUtils.flair_fast_name] = FlairNer.get_flair_fast_entities(text)
-        if NERUtils.flair_fast_ontonotes_name in models:
-            doc[NERUtils.flair_fast_ontonotes_name] = FlairNer.get_flair_ontonotes_fast_entities(text)
-        if NERUtils.flair_pooled_name in models:
-            doc[NERUtils.flair_pooled_name] = FlairNer.get_flair_pooled_entities(text)
-        if NERUtils.deeppavlov_onto_name in models:
-            doc[NERUtils.deeppavlov_onto_name] = Deeppavlov.get_deeppavlov_onto_entities(text)
-        if NERUtils.deeppavlov_onto_bert_name in models:
-            doc[NERUtils.deeppavlov_onto_bert_name] = Deeppavlov.get_deeppavlov_ontobert_entities(text)
-        if NERUtils.deeppavlov_conll2003_name in models:
-            doc[NERUtils.deeppavlov_conll2003_name] = Deeppavlov.get_deeppavlov_conll2003_entities(text)
-        if NERUtils.deeppavlov_conll2003_bert_name in models:
-            doc[NERUtils.deeppavlov_conll2003_bert_name] = Deeppavlov.get_deeppavlov_conll2003_bert_entities(text)
-        if NERUtils.allennlp_ner_name in models:
-            doc[NERUtils.allennlp_ner_name] = AllennlpNer.get_allennlp_ner(text)
-        if NERUtils.allennlp_finegrained_ner_name in models:
-            doc[NERUtils.allennlp_finegrained_ner_name] = AllennlpNer.get_allennlp_fine_grained_ner(text)
-        if NERUtils.polyglot_name in models:
-            doc[NERUtils.polyglot_name] = Polyglot.get_polyglot_entities(text)
+        for model in models:
+            dt_begin: datetime = NERUtils.run_model_start_event(model)
+            doc[model] = run_model(model)
+            NERUtils.run_model_end_event(dt_begin)
         return doc
 
 
     @staticmethod
     def load_models(models):
-        if NERUtils.stanford_class7_name in models:
-            StanfordNer.load_stanford_class7_model()
-        if NERUtils.stanford_class4_name in models:
-            StanfordNer.load_stanford_class4_model()
-        if NERUtils.stanford_class3_name in models:
-           StanfordNer.load_stanford_class3_model()
-        if NERUtils.stanza_name in models:
-            StanzaNer.load_stanza_model()
-        if NERUtils.spacy_sm_name in models:
-            SpacyNer.load_spacy_sm_model()
-        if NERUtils.spacy_md_name in models:
-            SpacyNer.load_spacy_md_model()
-        if NERUtils.spacy_lg_name in models:
-            SpacyNer.load_spacy_lg_model()
+        if NERUtils.stanford_class7_name in models: StanfordNer.load_stanford_class7_model()
+        if NERUtils.stanford_class4_name in models: StanfordNer.load_stanford_class4_model()
+        if NERUtils.stanford_class3_name in models: StanfordNer.load_stanford_class3_model()
+        if NERUtils.stanza_name   in models: StanzaNer.load_stanza_model()
+        if NERUtils.spacy_sm_name in models: SpacyNer.load_spacy_sm_model()
+        if NERUtils.spacy_md_name in models: SpacyNer.load_spacy_md_model()
+        if NERUtils.spacy_lg_name in models: SpacyNer.load_spacy_lg_model()
         if NERUtils.nltk_name in models:
             pass
-        if NERUtils.bert_name in models:
-            BERTNer.load_bert_model()
-        if NERUtils.flair_name in models:
-            FlairNer.load_flair_model()
-        if NERUtils.flair_ontonotes_name in models:
-            FlairNer.load_flair_ontonotes_model()
-        if NERUtils.flair_fast_name in models:
-            FlairNer.load_flair_fast_model()
-        if NERUtils.flair_fast_ontonotes_name in models:
-            FlairNer.load_flair_ontonotes_fast_model()
-        if NERUtils.flair_pooled_name in models:
-            FlairNer.load_flair_pooled_model()
-        if NERUtils.deeppavlov_onto_name in models:
-            Deeppavlov.load_onto_model()
-        if NERUtils.deeppavlov_onto_bert_name in models:
-            Deeppavlov.load_onto_bert_model()
-        if NERUtils.deeppavlov_conll2003_name in models:
-            Deeppavlov.load_conll_model()
-        if NERUtils.deeppavlov_conll2003_bert_name in models:
-            Deeppavlov.load_conll_bert_model()
-        if NERUtils.allennlp_ner_name in models:
-            AllennlpNer.load_ner_model()
-        if NERUtils.allennlp_finegrained_ner_name in models:
-            AllennlpNer.load_finegrained_ner_model()
+        if NERUtils.bert_name                      in models: BERTNer.load_bert_model()
+        if NERUtils.flair_name                     in models: FlairNer.load_flair_model()
+        if NERUtils.flair_ontonotes_name           in models: FlairNer.load_flair_ontonotes_model()
+        if NERUtils.flair_fast_name                in models: FlairNer.load_flair_fast_model()
+        if NERUtils.flair_fast_ontonotes_name      in models: FlairNer.load_flair_ontonotes_fast_model()
+        if NERUtils.flair_pooled_name              in models: FlairNer.load_flair_pooled_model()
+        if NERUtils.deeppavlov_onto_name           in models: Deeppavlov.load_onto_model()
+        if NERUtils.deeppavlov_onto_bert_name      in models: Deeppavlov.load_onto_bert_model()
+        if NERUtils.deeppavlov_conll2003_name      in models: Deeppavlov.load_conll_model()
+        if NERUtils.deeppavlov_conll2003_bert_name in models: Deeppavlov.load_conll_bert_model()
+        if NERUtils.allennlp_ner_name              in models: AllennlpNer.load_ner_model()
+        if NERUtils.allennlp_finegrained_ner_name  in models: AllennlpNer.load_finegrained_ner_model()
         if NERUtils.polyglot_name in models:
             pass
 
@@ -1082,6 +1062,7 @@ class NER:
             if ('text-analysis' in file["Specific-Metadata"]):
                 doc_0 = {}
                 doc_0["filename"] = file["General-Metadata"]["FILENAME"]
+                MEL.Utils._log.info(f"\n\n==> [TNNT] Processing file: [{doc_0['filename']}]")
                 if (file["General-Metadata"]["EXTENSION"] == "csv"): # only CSV | doesn't apply to XLSX
                     text = NER.csv_preprocess(file)
                     NLP_NER["doc-0"] = NER.get_csv_ner_from_models(text, doc_0, models)

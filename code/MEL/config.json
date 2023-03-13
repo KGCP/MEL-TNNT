@@ -1,5 +1,5 @@
 {
-	"$-exec": "ANU-Scholarly-Researchers",
+	"$-exec": "TNNT-Testing",
 	"Virtuoso":
 	{
 		"Host": "http://server-domain:8890/sparql/"
@@ -261,6 +261,40 @@
 				"Output-Handling": "COMPLETE",
 				"Store-Output-On-CouchDB": 0,
             	"Regenerate-Output": 0
+			},
+			"PDF.Text-Extraction-Preserve-Layout": 0
+        },
+		"TNNT-Testing": {
+       		"CouchDB": {
+            	"Database": "/***",
+            	"Enable": 0,
+            	"Reload-Documents": 0,
+				"Reload-Files-of-Extensions": "*",
+				"Only-Files-of-Extensions": "*",
+				"Skip-Files-of-Extensions": "*"
+            },
+            "Folders": {
+	            "Input-Folder":    "E:/_temp/prj-TNNT-Performance-Survey/",
+	            "Output-Folder":   "E:/_temp/prj-TNNT-Performance-Survey/_output/",
+	            "Generate-Output-Files": 1,
+	            "Temp-Folder":     "E:/_temp/prj-DepFin/_tmp/",
+	            "Metadata-Folder": "E:/_temp/prj-DepFin/_metadata/",
+            	"Has-Associated-Metadata": 0,
+	            "Test-Folder":     "E:/_temp/prj-TNNT-Performance-Survey/",
+	            "Log-Folder":      "E:/_temp/prj-DepFin/_logs/",
+        		"Start-From-UseCase":  "",
+				"Start-From-Filename": "",
+				"Only-UseCase":        "_input",
+				"Only-Filename":       "APW_19980314.txt",
+				"View-File-Print": 0
+            },
+            "NLP-NER": {
+            	"Database": "/nlp-ner-***",
+            	"Output": "E:/_temp/prj-TNNT-Performance-Survey/_output/",
+				"Enable": 1,
+				"Output-Handling": "COMPLETE",
+				"Store-Output-On-CouchDB": 0,
+            	"Regenerate-Output": 1
 			},
 			"PDF.Text-Extraction-Preserve-Layout": 0
         }
